@@ -1,7 +1,7 @@
 {
   "name": "Battleships",
   "version": "0.3.0",
-  "description": "A 'first React app' tutorial/challenge",
+  "description": "An implementation of the classic game of battleships",
   "main": "server/index.js",
   "scripts": {
     "start": "node server & webpack --watch"
