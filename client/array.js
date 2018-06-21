@@ -8,7 +8,7 @@ function generateGrid(size) {
             row.push({
                 row: i,
                 col: j,
-                ship: false,
+                ship: (Math.random() < 0.1),
                 hit: false
             })
         } 

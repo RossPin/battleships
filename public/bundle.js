@@ -18387,7 +18387,8 @@ var _react2 = _interopRequireDefault(_react);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Cell = function Cell(props) {
-    return _react2.default.createElement('div', { className: 'cell', style: { height: props.cellSize, width: props.cellSize } });
+    var ship = props.cell.ship ? 'ship' : '';
+    return _react2.default.createElement('div', { className: 'cell ' + ship, style: { height: props.cellSize, width: props.cellSize } });
 };
 
 exports.default = Cell;
@@ -18407,7 +18408,7 @@ function generateGrid(size) {
             row.push({
                 row: i,
                 col: j,
-                ship: false,
+                ship: Math.random() < 0.1,
                 hit: false
             });
         }

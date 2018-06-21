@@ -12,5 +12,9 @@
 .cell {  
   border-right: 1px dashed rgba(0,0,0,0.2);
   border-bottom: 1px dashed rgba(0,0,0,0.2);
-  text-align: center;
+  text-align: center;  
+}
+
+.ship {
+  background-color: red;
 }
