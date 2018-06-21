@@ -14,7 +14,7 @@ function generateGrid(size) {
         }
         grid.push(row)
     }
-    placeShips(grid)
+    let ships = placeShips(grid)
     return grid
 }
 
