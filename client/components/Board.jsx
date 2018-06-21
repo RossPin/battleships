@@ -7,16 +7,16 @@ class Board extends React.Component {
     constructor(props){
         super(props)
         this.state = {
-            grid: generateGrid(10),            
+            grid: generateGrid(20),            
         }
     }
 
     render(){
         const grid = this.state.grid
-        const cellSize = this.props.width / grid.length
-        return (
-            <div className='board' style={{width: this.props.width}}>
-                <h2>Board</h2>
+        const width = this.props.width
+        const cellSize = width / grid.length
+        return (           
+            <div className='board' style={{width: width}}>
                 {this.state.grid.map((row, i) => (
                     <div key={i} className='row' style={{height: cellSize}}>
                         {row.map((cell, i) => (                            
@@ -24,7 +24,7 @@ class Board extends React.Component {
                         ))}
                     </div>
                 ))}
-            </div>
+            </div>            
         )
     }
 }
