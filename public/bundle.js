@@ -18339,15 +18339,24 @@ var Board = function (_React$Component) {
         _this.state = {
             grid: (0, _array.generateGrid)(20)
         };
+        _this.strikeHandler = _this.strikeHandler.bind(_this);
         return _this;
     }
 
     _createClass(Board, [{
+        key: 'strikeHandler',
+        value: function strikeHandler(cell) {
+            var grid = this.state.grid;
+            grid[cell.row][cell.col].hit = true;
+            this.setState({ grid: grid });
+        }
+    }, {
         key: 'render',
         value: function render() {
             var grid = this.state.grid;
             var width = this.props.width;
             var cellSize = width / grid.length;
+            var strikeHandler = this.strikeHandler;
             return _react2.default.createElement(
                 'div',
                 { className: 'board', style: { width: width } },
@@ -18356,7 +18365,7 @@ var Board = function (_React$Component) {
                         'div',
                         { key: i, className: 'row', style: { height: cellSize } },
                         row.map(function (cell, i) {
-                            return _react2.default.createElement(_Cell2.default, { key: i, cellSize: cellSize, cell: cell });
+                            return _react2.default.createElement(_Cell2.default, { key: i, strikeHandler: strikeHandler, cellSize: cellSize, cell: cell });
                         })
                     );
                 })
@@ -18387,8 +18396,13 @@ var _react2 = _interopRequireDefault(_react);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Cell = function Cell(props) {
+    var clickHandler = function clickHandler() {
+        props.strikeHandler(props.cell);
+    };
+
     var ship = props.cell.ship ? 'ship' : '';
-    return _react2.default.createElement('div', { className: 'cell ' + ship, style: { height: props.cellSize, width: props.cellSize } });
+    var hit = props.cell.hit ? props.cell.ship ? 'hit' : 'miss' : '';
+    return _react2.default.createElement('div', { className: 'cell ' + ship + ' ' + hit, style: { height: props.cellSize, width: props.cellSize }, onClick: clickHandler });
 };
 
 exports.default = Cell;
@@ -18416,7 +18430,7 @@ function generateGrid(size) {
         }
         grid.push(row);
     }
-    (0, _ships.placeShips)(grid);
+    var ships = (0, _ships.placeShips)(grid);
     return grid;
 }
 
@@ -18432,20 +18446,47 @@ module.exports = {
 
 
 function placeShips(grid) {
-  placeShipHorizontal(5, grid);
-  placeShipHorizontal(4, grid);
-  placeShipHorizontal(3, grid);
-  placeShipHorizontal(3, grid);
-  placeShipHorizontal(2, grid);
-  placeShipHorizontal(2, grid);
+  var ships = {
+    ship1: placeShip(5, grid),
+    ship2: placeShip(4, grid),
+    ship3: placeShip(3, grid),
+    ship4: placeShip(3, grid),
+    ship5: placeShip(2, grid),
+    ship6: placeShip(2, grid)
+  };
+  return ships;
+}
+
+function placeShip(length, grid) {
+  if (Math.random() > 0.5) return placeShipHorizontal(length, grid);else return placeShipVertical(length, grid);
 }
 
 function placeShipHorizontal(length, grid) {
   var row = Math.floor(Math.random() * grid.length);
-  var col = Math.floor(Math.random() * grid.length - length);
+  var col = Math.floor(Math.random() * (grid.length - length));
+  var ship = [];
   for (var i = 0; i < length; i++) {
-    grid[row][col + i].ship = true;
+    if (grid[row][col + i].ship) return placeShipHorizontal(length, grid);
   }
+  for (var _i = 0; _i < length; _i++) {
+    grid[row][col + _i].ship = true;
+    ship.push([row, col + _i]);
+  }
+  return ship;
+}
+
+function placeShipVertical(length, grid) {
+  var col = Math.floor(Math.random() * grid.length);
+  var row = Math.floor(Math.random() * (grid.length - length));
+  var ship = [];
+  for (var i = 0; i < length; i++) {
+    if (grid[row + i][col].ship) return placeShipHorizontal(length, grid);
+  }
+  for (var _i2 = 0; _i2 < length; _i2++) {
+    grid[row + _i2][col].ship = true;
+    ship.push([row + _i2, col]);
+  }
+  return ship;
 }
 
 module.exports = { placeShips: placeShips };
