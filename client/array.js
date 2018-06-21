@@ -1,4 +1,4 @@
-
+import {placeShips} from './ships'
 
 function generateGrid(size) {
     var grid = []
@@ -8,12 +8,13 @@ function generateGrid(size) {
             row.push({
                 row: i,
                 col: j,
-                ship: (Math.random() < 0.1),
+                ship: false,
                 hit: false
             })
-        } 
+        }
         grid.push(row)
     }
+    placeShips(grid)
     return grid
 }
 

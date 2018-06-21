@@ -18400,6 +18400,8 @@ exports.default = Cell;
 "use strict";
 
 
+var _ships = __webpack_require__(31);
+
 function generateGrid(size) {
     var grid = [];
     for (var i = 0; i < size; i++) {
@@ -18408,18 +18410,45 @@ function generateGrid(size) {
             row.push({
                 row: i,
                 col: j,
-                ship: Math.random() < 0.1,
+                ship: false,
                 hit: false
             });
         }
         grid.push(row);
     }
+    (0, _ships.placeShips)(grid);
     return grid;
 }
 
 module.exports = {
     generateGrid: generateGrid
 };
+
+/***/ }),
+/* 31 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function placeShips(grid) {
+  placeShipHorizontal(5, grid);
+  placeShipHorizontal(4, grid);
+  placeShipHorizontal(3, grid);
+  placeShipHorizontal(3, grid);
+  placeShipHorizontal(2, grid);
+  placeShipHorizontal(2, grid);
+}
+
+function placeShipHorizontal(length, grid) {
+  var row = Math.floor(Math.random() * grid.length);
+  var col = Math.floor(Math.random() * grid.length - length);
+  for (var i = 0; i < length; i++) {
+    grid[row][col + i].ship = true;
+  }
+}
+
+module.exports = { placeShips: placeShips };
 
 /***/ })
 /******/ ]);
