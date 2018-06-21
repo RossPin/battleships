@@ -18342,8 +18342,7 @@ var Board = function (_React$Component) {
         var _this = _possibleConstructorReturn(this, (Board.__proto__ || Object.getPrototypeOf(Board)).call(this, props));
 
         _this.state = {
-            grid: (0, _array.generateGrid)(10),
-            width: props.width
+            grid: (0, _array.generateGrid)(10)
         };
         return _this;
     }
@@ -18352,10 +18351,10 @@ var Board = function (_React$Component) {
         key: 'render',
         value: function render() {
             var grid = this.state.grid;
-            var height = this.state.width / grid.length;
+            var cellSize = this.props.width / grid.length;
             return _react2.default.createElement(
                 'div',
-                { className: 'board' },
+                { className: 'board', style: { width: this.props.width } },
                 _react2.default.createElement(
                     'h2',
                     null,
@@ -18364,9 +18363,9 @@ var Board = function (_React$Component) {
                 this.state.grid.map(function (row, i) {
                     return _react2.default.createElement(
                         'div',
-                        { key: i, className: 'row', style: { height: height } },
+                        { key: i, className: 'row', style: { height: cellSize } },
                         row.map(function (cell, i) {
-                            return _react2.default.createElement(_Cell2.default, { key: i, height: height, cell: cell });
+                            return _react2.default.createElement(_Cell2.default, { key: i, cellSize: cellSize, cell: cell });
                         })
                     );
                 })
@@ -18399,7 +18398,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var Cell = function Cell(props) {
     return _react2.default.createElement(
         'div',
-        { className: 'cell', style: { height: props.height } },
+        { className: 'cell', style: { height: props.cellSize, width: props.cellSize } },
         'Cell'
     );
 };
