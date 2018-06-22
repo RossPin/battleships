@@ -1,13 +1,13 @@
 
 function placeShips(grid) {
-  let ships = {
-  ship1: placeShip(5, grid),
-  ship2: placeShip(4, grid),
-  ship3: placeShip(3, grid),
-  ship4: placeShip(3, grid),
-  ship5: placeShip(2, grid),
-  ship6: placeShip(2, grid)
-  }
+  let ships = []
+  ships.push(placeShip(5, grid))
+  ships.push(placeShip(4, grid))
+  ships.push(placeShip(3, grid))
+  ships.push(placeShip(3, grid))
+  ships.push(placeShip(2, grid))
+  ships.push(placeShip(2, grid)) 
+ 
   return ships
 }
 
@@ -25,7 +25,7 @@ function placeShipHorizontal(length, grid) {
   }
   for (let i=0; i<length; i++){
     grid[row][col+i].ship = true
-    ship.push([row, col+i])
+    ship.push(grid[row][col+i])
   }
   return ship
 }
@@ -39,7 +39,7 @@ function placeShipVertical(length, grid) {
   }
   for (let i=0; i<length; i++){
     grid[row+i][col].ship = true
-    ship.push([row+i, col])
+    ship.push(grid[row+i][col])
   }
   return ship
 }

@@ -9,13 +9,16 @@ function generateGrid(size) {
                 row: i,
                 col: j,
                 ship: false,
-                hit: false
+                hit: false,
+                sunk: false
             })
         }
         grid.push(row)
     }
     let ships = placeShips(grid)
-    return grid
+    let sunk = []
+    let destroyed = false    
+    return {grid, ships, sunk}
 }
 
 module.exports = {
