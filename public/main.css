@@ -1,9 +1,12 @@
 .board {
-  background-image: url('/images/ocean.jpg');
-  background-size: cover;
-  border: 3px solid black;
   margin-left: auto;
   margin-right: auto;
+}
+
+.grid {
+  background-image: url('/images/ocean.jpg');
+  background-size: cover;
+  border: 3px solid black; 
 }
 
 .row {
@@ -13,6 +16,10 @@
 .cell {
   border-right: 1px dashed rgba(0,0,0,0.2);
   border-bottom: 1px dashed rgba(0,0,0,0.2);
+  text-align: center;
+}
+
+h1 {
   text-align: center;
 }
 
@@ -32,5 +39,5 @@
 }
 
 .sunk {
-  background-color: rgba(50,50,50,0.4);
+  background-color: rgba(180,50,50,0.6);
 }

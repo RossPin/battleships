@@ -45,8 +45,8 @@ class Board extends React.Component {
         const cellSize = width / grid.length
         const strikeHandler = this.strikeHandler
         return (
-            <React.Fragment>
-                <div className='board' style={{width: width}}>
+            <div className='board' style={{width: width}}>
+                <div className='grid' style={{width: width}}>
                     {this.state.grid.map((row, i) => (
                         <div key={i} className='row' style={{height: cellSize}}>
                             {row.map((cell, i) => (
@@ -56,7 +56,7 @@ class Board extends React.Component {
                     ))}
                 </div>
                 {this.state.destroyed && <h1>All Ships Destroyed</h1>}
-            </React.Fragment>
+            </div>
         )
     }
 }

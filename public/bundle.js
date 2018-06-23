@@ -18336,19 +18336,47 @@ var Board = function (_React$Component) {
 
         var _this = _possibleConstructorReturn(this, (Board.__proto__ || Object.getPrototypeOf(Board)).call(this, props));
 
-        _this.state = {
-            grid: (0, _array.generateGrid)(20)
-        };
+        _this.state = (0, _array.generateGrid)(20);
         _this.strikeHandler = _this.strikeHandler.bind(_this);
+        _this.checkShips = _this.checkShips.bind(_this);
         return _this;
     }
 
     _createClass(Board, [{
         key: 'strikeHandler',
         value: function strikeHandler(cell) {
+            if (this.state.destroyed) return;
             var grid = this.state.grid;
             grid[cell.row][cell.col].hit = true;
+            this.checkShips();
             this.setState({ grid: grid });
+            if (this.state.ships.length < 1) this.setState({ destroyed: true });
+        }
+    }, {
+        key: 'checkShips',
+        value: function checkShips() {
+            var _this2 = this;
+
+            var ships = this.state.ships;
+            ships.forEach(function (ship, i) {
+                if (_this2.checkSunk(ship, i)) {
+                    ship.forEach(function (cell) {
+                        return cell.sunk = true;
+                    });
+                    var sunk = _this2.state.sunk;
+                    sunk.push(ship);
+                    ships.splice(i, 1);
+                    _this2.setState({ sunk: sunk, ships: ships });
+                }
+            });
+        }
+    }, {
+        key: 'checkSunk',
+        value: function checkSunk(ship) {
+            var cellsRemaining = ship.filter(function (cell) {
+                return !cell.hit;
+            });
+            return cellsRemaining.length < 1;
         }
     }, {
         key: 'render',
@@ -18360,15 +18388,24 @@ var Board = function (_React$Component) {
             return _react2.default.createElement(
                 'div',
                 { className: 'board', style: { width: width } },
-                this.state.grid.map(function (row, i) {
-                    return _react2.default.createElement(
-                        'div',
-                        { key: i, className: 'row', style: { height: cellSize } },
-                        row.map(function (cell, i) {
-                            return _react2.default.createElement(_Cell2.default, { key: i, strikeHandler: strikeHandler, cellSize: cellSize, cell: cell });
-                        })
-                    );
-                })
+                _react2.default.createElement(
+                    'div',
+                    { className: 'grid', style: { width: width } },
+                    this.state.grid.map(function (row, i) {
+                        return _react2.default.createElement(
+                            'div',
+                            { key: i, className: 'row', style: { height: cellSize } },
+                            row.map(function (cell, i) {
+                                return _react2.default.createElement(_Cell2.default, { key: i, strikeHandler: strikeHandler, cellSize: cellSize, cell: cell });
+                            })
+                        );
+                    })
+                ),
+                this.state.destroyed && _react2.default.createElement(
+                    'h1',
+                    null,
+                    'All Ships Destroyed'
+                )
             );
         }
     }]);
@@ -18402,7 +18439,8 @@ var Cell = function Cell(props) {
 
     var ship = props.cell.ship ? 'ship' : '';
     var hit = props.cell.hit ? props.cell.ship ? 'hit' : 'miss' : '';
-    return _react2.default.createElement('div', { className: 'cell ' + ship + ' ' + hit, style: { height: props.cellSize, width: props.cellSize }, onClick: clickHandler });
+    var sunk = props.cell.sunk ? 'sunk' : '';
+    return _react2.default.createElement('div', { className: 'cell ' + ship + ' ' + hit + ' ' + sunk, style: { height: props.cellSize, width: props.cellSize }, onClick: clickHandler });
 };
 
 exports.default = Cell;
@@ -18425,13 +18463,16 @@ function generateGrid(size) {
                 row: i,
                 col: j,
                 ship: false,
-                hit: false
+                hit: false,
+                sunk: false
             });
         }
         grid.push(row);
     }
     var ships = (0, _ships.placeShips)(grid);
-    return grid;
+    var sunk = [];
+    var destroyed = false;
+    return { grid: grid, ships: ships, sunk: sunk };
 }
 
 module.exports = {
@@ -18446,14 +18487,14 @@ module.exports = {
 
 
 function placeShips(grid) {
-  var ships = {
-    ship1: placeShip(5, grid),
-    ship2: placeShip(4, grid),
-    ship3: placeShip(3, grid),
-    ship4: placeShip(3, grid),
-    ship5: placeShip(2, grid),
-    ship6: placeShip(2, grid)
-  };
+  var ships = [];
+  ships.push(placeShip(5, grid));
+  ships.push(placeShip(4, grid));
+  ships.push(placeShip(3, grid));
+  ships.push(placeShip(3, grid));
+  ships.push(placeShip(2, grid));
+  ships.push(placeShip(2, grid));
+
   return ships;
 }
 
@@ -18470,7 +18511,7 @@ function placeShipHorizontal(length, grid) {
   }
   for (var _i = 0; _i < length; _i++) {
     grid[row][col + _i].ship = true;
-    ship.push([row, col + _i]);
+    ship.push(grid[row][col + _i]);
   }
   return ship;
 }
@@ -18484,7 +18525,7 @@ function placeShipVertical(length, grid) {
   }
   for (var _i2 = 0; _i2 < length; _i2++) {
     grid[row + _i2][col].ship = true;
-    ship.push([row + _i2, col]);
+    ship.push(grid[row + _i2][col]);
   }
   return ship;
 }
