@@ -47,7 +47,7 @@ class Board extends React.Component {
     }
     
     auto(){
-        this.strikeHandler(autoPlay.takeTurn(this.state.grid))
+        this.strikeHandler(autoPlay.takeTurn(this.state.grid, this.state.ships))
     }
 
     render(){

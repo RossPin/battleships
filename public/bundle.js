@@ -18530,7 +18530,7 @@ var Board = function (_React$Component) {
     }, {
         key: 'auto',
         value: function auto() {
-            this.strikeHandler(_autoPlay2.default.takeTurn(this.state.grid));
+            this.strikeHandler(_autoPlay2.default.takeTurn(this.state.grid, this.state.ships));
         }
     }, {
         key: 'render',
@@ -18667,10 +18667,30 @@ module.exports = { placeShips: placeShips };
 "use strict";
 
 
-function takeTurn(grid) {
+function takeTurn(grid, ships) {
+    if (ships) {
+        if (shipBurning(ships)) return targetShip(grid, ships);
+    }
     var row = Math.floor(Math.random() * grid.length);
     var col = Math.floor(Math.random() * grid[row].length);
     if (grid[row][col].hit) return takeTurn(grid);else return grid[row][col];
+}
+
+function shipBurning(ships) {
+    var burning = ships.find(function (ship) {
+        return ship.find(function (cell) {
+            return cell.hit && !cell.sunk;
+        });
+    });
+    return burning;
+}
+
+function targetShip(grid, ships) {
+    var ship = shipBurning(ships);
+    var cell = ship.find(function (cell) {
+        return !cell.hit;
+    });
+    return cell;
 }
 
 module.exports = {
