@@ -7,8 +7,12 @@ class Game extends React.Component {
     constructor(props){
         super(props)
         this.state = {
-            player1: true,
-            player2: false,
+            player1: {turn: true,
+                        computer: false,
+                    name: 'Player 1'},
+            player2: {turn: false,
+                computer: true,
+                name: 'Computer'},
             winner: false            
         }
         this.changeTurn = this.changeTurn.bind(this)
@@ -17,15 +21,15 @@ class Game extends React.Component {
 
     changeTurn(){
         let {player1, player2} = this.state
-        player1 = !player1
-        player2 = !player2
+        player1.turn = !player1.turn
+        player2.turn = !player2.turn
         this.setState({player1, player2})
     }
 
     gameWon(player){
         let {player1, player2, winner} = this.state
-        player1 = false
-        player2 = false
+        player1.turn = false
+        player2.turn = false
         winner = player
         this.setState({player1, player2, winner})
     }
@@ -34,10 +38,10 @@ class Game extends React.Component {
         return (
             <div>
                 <div className='game' style={{width: this.props.width*2}}>  
-                    <Board name='Player 1' turn={this.state.player1} width={this.props.width} 
-                    changeTurn={this.changeTurn} gameWon={this.gameWon}/>
-                    <Board name='Player 2' turn={this.state.player2} width={this.props.width} 
-                    changeTurn={this.changeTurn} gameWon={this.gameWon}/>                
+            <Board {...this.state.player1}  
+                    changeTurn={this.changeTurn} gameWon={this.gameWon} width={this.props.width}/>
+                    <Board {...this.state.player2}
+                    changeTurn={this.changeTurn} gameWon={this.gameWon} width={this.props.width}/>                
                 </div>
                 {this.state.winner && <h1>{this.state.winner} WINS!!!!!!!</h1>}
             </div>

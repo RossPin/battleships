@@ -18340,6 +18340,8 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__(1);
@@ -18369,8 +18371,12 @@ var Game = function (_React$Component) {
         var _this = _possibleConstructorReturn(this, (Game.__proto__ || Object.getPrototypeOf(Game)).call(this, props));
 
         _this.state = {
-            player1: true,
-            player2: false,
+            player1: { turn: true,
+                computer: false,
+                name: 'Player 1' },
+            player2: { turn: false,
+                computer: true,
+                name: 'Computer' },
             winner: false
         };
         _this.changeTurn = _this.changeTurn.bind(_this);
@@ -18385,8 +18391,8 @@ var Game = function (_React$Component) {
                 player1 = _state.player1,
                 player2 = _state.player2;
 
-            player1 = !player1;
-            player2 = !player2;
+            player1.turn = !player1.turn;
+            player2.turn = !player2.turn;
             this.setState({ player1: player1, player2: player2 });
         }
     }, {
@@ -18397,8 +18403,8 @@ var Game = function (_React$Component) {
                 player2 = _state2.player2,
                 winner = _state2.winner;
 
-            player1 = false;
-            player2 = false;
+            player1.turn = false;
+            player2.turn = false;
             winner = player;
             this.setState({ player1: player1, player2: player2, winner: winner });
         }
@@ -18411,10 +18417,10 @@ var Game = function (_React$Component) {
                 _react2.default.createElement(
                     'div',
                     { className: 'game', style: { width: this.props.width * 2 } },
-                    _react2.default.createElement(_Board2.default, { name: 'Player 1', turn: this.state.player1, width: this.props.width,
-                        changeTurn: this.changeTurn, gameWon: this.gameWon }),
-                    _react2.default.createElement(_Board2.default, { name: 'Player 2', turn: this.state.player2, width: this.props.width,
-                        changeTurn: this.changeTurn, gameWon: this.gameWon })
+                    _react2.default.createElement(_Board2.default, _extends({}, this.state.player1, {
+                        changeTurn: this.changeTurn, gameWon: this.gameWon, width: this.props.width })),
+                    _react2.default.createElement(_Board2.default, _extends({}, this.state.player2, {
+                        changeTurn: this.changeTurn, gameWon: this.gameWon, width: this.props.width }))
                 ),
                 this.state.winner && _react2.default.createElement(
                     'h1',
@@ -18454,6 +18460,10 @@ var _Cell2 = _interopRequireDefault(_Cell);
 
 var _array = __webpack_require__(14);
 
+var _autoPlay = __webpack_require__(33);
+
+var _autoPlay2 = _interopRequireDefault(_autoPlay);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -18473,6 +18483,7 @@ var Board = function (_React$Component) {
         _this.state = (0, _array.generateGrid)(20);
         _this.strikeHandler = _this.strikeHandler.bind(_this);
         _this.checkShips = _this.checkShips.bind(_this);
+        _this.auto = _this.auto.bind(_this);
         return _this;
     }
 
@@ -18517,12 +18528,20 @@ var Board = function (_React$Component) {
             return cellsRemaining.length < 1;
         }
     }, {
+        key: 'auto',
+        value: function auto() {
+            this.strikeHandler(_autoPlay2.default.takeTurn(this.state.grid));
+        }
+    }, {
         key: 'render',
         value: function render() {
+            if (this.props.computer && this.props.turn) setTimeout(this.auto, 500);
             var grid = this.state.grid;
             var width = this.props.width;
             var cellSize = width / grid.length;
-            var strikeHandler = this.strikeHandler;
+            var strikeHandler = this.props.computer ? function () {
+                return '';
+            } : this.strikeHandler;
             return _react2.default.createElement(
                 'div',
                 { className: 'board' },
@@ -18640,6 +18659,23 @@ function placeShipVertical(length, grid) {
 }
 
 module.exports = { placeShips: placeShips };
+
+/***/ }),
+/* 33 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function takeTurn(grid) {
+    var row = Math.floor(Math.random() * grid.length);
+    var col = Math.floor(Math.random() * grid[row].length);
+    if (grid[row][col].hit) return takeTurn(grid);else return grid[row][col];
+}
+
+module.exports = {
+    takeTurn: takeTurn
+};
 
 /***/ })
 /******/ ]);

@@ -2,6 +2,7 @@ import React from 'react'
 
 import Cell from './Cell'
 import {generateGrid} from '../array'
+import autoPlay from '../autoPlay'
 
 
 class Board extends React.Component {
@@ -10,6 +11,7 @@ class Board extends React.Component {
         this.state = generateGrid(20)
         this.strikeHandler = this.strikeHandler.bind(this)
         this.checkShips = this.checkShips.bind(this)
+        this.auto = this.auto.bind(this)
     }
 
     strikeHandler(cell) {
@@ -43,12 +45,17 @@ class Board extends React.Component {
         let cellsRemaining = ship.filter(cell => !cell.hit)
         return (cellsRemaining.length < 1)
     }
+    
+    auto(){
+        this.strikeHandler(autoPlay.takeTurn(this.state.grid))
+    }
 
     render(){
+        if (this.props.computer && this.props.turn) setTimeout(this.auto, 500)        
         const grid = this.state.grid
         const width = this.props.width
         const cellSize = width / grid.length
-        const strikeHandler = this.strikeHandler
+        const strikeHandler = this.props.computer ? ()=>'' : this.strikeHandler
         return (
             <div className='board' >
                 <h1>{this.props.name || 'Player'}</h1>
