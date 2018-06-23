@@ -45,8 +45,9 @@ class Board extends React.Component {
         const cellSize = width / grid.length
         const strikeHandler = this.strikeHandler
         return (
-            <div className='board' style={{width: width}}>
-                <div className='grid' style={{width: width}}>
+            <div className='board' >
+                <h1>{this.props.name || 'Player'}</h1>
+                <div className='grid' >
                     {this.state.grid.map((row, i) => (
                         <div key={i} className='row' style={{height: cellSize}}>
                             {row.map((cell, i) => (
