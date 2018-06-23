@@ -14,11 +14,16 @@ class Board extends React.Component {
 
     strikeHandler(cell) {
         if (this.state.destroyed) return
-      const grid = this.state.grid
-      grid[cell.row][cell.col].hit = true
-      this.checkShips()      
-      this.setState({grid})
-      if (this.state.ships.length<1) this.setState({destroyed: true})
+        if (!this.props.turn) return         
+        const grid = this.state.grid
+        grid[cell.row][cell.col].hit = true
+        this.checkShips()      
+        this.setState({grid})
+        if (this.state.ships.length<1) {
+            this.setState({destroyed: true})
+            this.props.gameWon(this.props.name)
+        }
+        else this.props.changeTurn()
     }
 
     checkShips(){
@@ -47,7 +52,7 @@ class Board extends React.Component {
         return (
             <div className='board' >
                 <h1>{this.props.name || 'Player'}</h1>
-                <div className='grid' >
+                <div className={`grid ${this.props.turn && 'turn'}`} >
                     {this.state.grid.map((row, i) => (
                         <div key={i} className='row' style={{height: cellSize}}>
                             {row.map((cell, i) => (
