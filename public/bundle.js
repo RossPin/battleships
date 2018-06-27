@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 14);
+/******/ 	return __webpack_require__(__webpack_require__.s = 15);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -261,9 +261,9 @@ process.umask = function() { return 0; };
 /* WEBPACK VAR INJECTION */(function(process) {
 
 if (process.env.NODE_ENV === 'production') {
-  module.exports = __webpack_require__(15);
-} else {
   module.exports = __webpack_require__(16);
+} else {
+  module.exports = __webpack_require__(17);
 }
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
@@ -577,7 +577,7 @@ module.exports = warning;
 if (process.env.NODE_ENV !== 'production') {
   var invariant = __webpack_require__(5);
   var warning = __webpack_require__(6);
-  var ReactPropTypesSecret = __webpack_require__(17);
+  var ReactPropTypesSecret = __webpack_require__(18);
   var loggedTypeFailures = {};
 }
 
@@ -876,7 +876,7 @@ module.exports = shallowEqual;
  * 
  */
 
-var isTextNode = __webpack_require__(20);
+var isTextNode = __webpack_require__(21);
 
 /*eslint-disable no-bitwise */
 
@@ -940,15 +940,49 @@ module.exports = focusNode;
 "use strict";
 
 
+var _ships = __webpack_require__(32);
+
+function generateGrid(size) {
+    var grid = [];
+    for (var i = 0; i < size; i++) {
+        var row = [];
+        for (var j = 0; j < size; j++) {
+            row.push({
+                row: i,
+                col: j,
+                ship: false,
+                hit: false,
+                sunk: false
+            });
+        }
+        grid.push(row);
+    }
+    var ships = (0, _ships.placeShips)(grid);
+    var sunk = [];
+    var destroyed = false;
+    return { grid: grid, ships: ships, sunk: sunk };
+}
+
+module.exports = {
+    generateGrid: generateGrid
+};
+
+/***/ }),
+/* 15 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
 var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDom = __webpack_require__(18);
+var _reactDom = __webpack_require__(19);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _App = __webpack_require__(27);
+var _App = __webpack_require__(28);
 
 var _App2 = _interopRequireDefault(_App);
 
@@ -959,7 +993,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -987,7 +1021,7 @@ isValidElement:K,version:"16.2.0",__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_F
 
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2352,7 +2386,7 @@ module.exports = react;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2371,7 +2405,7 @@ module.exports = ReactPropTypesSecret;
 
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2409,15 +2443,15 @@ if (process.env.NODE_ENV === 'production') {
   // DCE check should happen before ReactDOM bundle executes so that
   // DevTools can report bad minification during injection.
   checkDCE();
-  module.exports = __webpack_require__(19);
+  module.exports = __webpack_require__(20);
 } else {
-  module.exports = __webpack_require__(22);
+  module.exports = __webpack_require__(23);
 }
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2653,7 +2687,7 @@ Z.injectIntoDevTools({findFiberByHostInstance:pb,bundleType:0,version:"16.2.0",r
 
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2668,7 +2702,7 @@ Z.injectIntoDevTools({findFiberByHostInstance:pb,bundleType:0,version:"16.2.0",r
  * @typechecks
  */
 
-var isNode = __webpack_require__(21);
+var isNode = __webpack_require__(22);
 
 /**
  * @param {*} object The object to check.
@@ -2681,7 +2715,7 @@ function isTextNode(object) {
 module.exports = isTextNode;
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2709,7 +2743,7 @@ function isNode(object) {
 module.exports = isNode;
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2743,8 +2777,8 @@ var containsNode = __webpack_require__(12);
 var focusNode = __webpack_require__(13);
 var emptyObject = __webpack_require__(4);
 var checkPropTypes = __webpack_require__(7);
-var hyphenateStyleName = __webpack_require__(23);
-var camelizeStyleName = __webpack_require__(25);
+var hyphenateStyleName = __webpack_require__(24);
+var camelizeStyleName = __webpack_require__(26);
 
 /**
  * WARNING: DO NOT manually require this module.
@@ -18111,7 +18145,7 @@ module.exports = reactDom;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18126,7 +18160,7 @@ module.exports = reactDom;
 
 
 
-var hyphenate = __webpack_require__(24);
+var hyphenate = __webpack_require__(25);
 
 var msPattern = /^ms-/;
 
@@ -18153,7 +18187,7 @@ function hyphenateStyleName(string) {
 module.exports = hyphenateStyleName;
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18189,7 +18223,7 @@ function hyphenate(string) {
 module.exports = hyphenate;
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18204,7 +18238,7 @@ module.exports = hyphenate;
 
 
 
-var camelize = __webpack_require__(26);
+var camelize = __webpack_require__(27);
 
 var msPattern = /^-ms-/;
 
@@ -18232,7 +18266,7 @@ function camelizeStyleName(string) {
 module.exports = camelizeStyleName;
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18267,7 +18301,7 @@ function camelize(string) {
 module.exports = camelize;
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18281,24 +18315,130 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _Board = __webpack_require__(28);
+var _Game = __webpack_require__(29);
 
-var _Board2 = _interopRequireDefault(_Board);
+var _Game2 = _interopRequireDefault(_Game);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var width = 500;
+
 var App = function App() {
-  return _react2.default.createElement(
-    'div',
-    null,
-    _react2.default.createElement(_Board2.default, { width: 500 })
-  );
+  return _react2.default.createElement(_Game2.default, { width: width });
 };
 
 exports.default = App;
 
 /***/ }),
-/* 28 */
+/* 29 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _Board = __webpack_require__(30);
+
+var _Board2 = _interopRequireDefault(_Board);
+
+var _array = __webpack_require__(14);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Game = function (_React$Component) {
+    _inherits(Game, _React$Component);
+
+    function Game(props) {
+        _classCallCheck(this, Game);
+
+        var _this = _possibleConstructorReturn(this, (Game.__proto__ || Object.getPrototypeOf(Game)).call(this, props));
+
+        _this.state = {
+            player1: { turn: true,
+                computer: false,
+                name: 'Player 1' },
+            player2: { turn: false,
+                computer: true,
+                name: 'Computer' },
+            winner: false
+        };
+        _this.changeTurn = _this.changeTurn.bind(_this);
+        _this.gameWon = _this.gameWon.bind(_this);
+        return _this;
+    }
+
+    _createClass(Game, [{
+        key: 'changeTurn',
+        value: function changeTurn() {
+            var _state = this.state,
+                player1 = _state.player1,
+                player2 = _state.player2;
+
+            player1.turn = !player1.turn;
+            player2.turn = !player2.turn;
+            this.setState({ player1: player1, player2: player2 });
+        }
+    }, {
+        key: 'gameWon',
+        value: function gameWon(player) {
+            var _state2 = this.state,
+                player1 = _state2.player1,
+                player2 = _state2.player2,
+                winner = _state2.winner;
+
+            player1.turn = false;
+            player2.turn = false;
+            winner = player;
+            this.setState({ player1: player1, player2: player2, winner: winner });
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement(
+                'div',
+                null,
+                _react2.default.createElement(
+                    'div',
+                    { className: 'game', style: { width: this.props.width * 2 } },
+                    _react2.default.createElement(_Board2.default, _extends({}, this.state.player1, {
+                        changeTurn: this.changeTurn, gameWon: this.gameWon, width: this.props.width })),
+                    _react2.default.createElement(_Board2.default, _extends({}, this.state.player2, {
+                        changeTurn: this.changeTurn, gameWon: this.gameWon, width: this.props.width }))
+                ),
+                this.state.winner && _react2.default.createElement(
+                    'h1',
+                    null,
+                    this.state.winner,
+                    ' WINS!!!!!!!'
+                )
+            );
+        }
+    }]);
+
+    return Game;
+}(_react2.default.Component);
+
+exports.default = Game;
+
+/***/ }),
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18314,11 +18454,15 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _Cell = __webpack_require__(29);
+var _Cell = __webpack_require__(31);
 
 var _Cell2 = _interopRequireDefault(_Cell);
 
-var _array = __webpack_require__(30);
+var _array = __webpack_require__(14);
+
+var _autoPlay = __webpack_require__(33);
+
+var _autoPlay2 = _interopRequireDefault(_autoPlay);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -18339,6 +18483,7 @@ var Board = function (_React$Component) {
         _this.state = (0, _array.generateGrid)(20);
         _this.strikeHandler = _this.strikeHandler.bind(_this);
         _this.checkShips = _this.checkShips.bind(_this);
+        _this.auto = _this.auto.bind(_this);
         return _this;
     }
 
@@ -18346,11 +18491,15 @@ var Board = function (_React$Component) {
         key: 'strikeHandler',
         value: function strikeHandler(cell) {
             if (this.state.destroyed) return;
+            if (!this.props.turn) return;
             var grid = this.state.grid;
             grid[cell.row][cell.col].hit = true;
             this.checkShips();
             this.setState({ grid: grid });
-            if (this.state.ships.length < 1) this.setState({ destroyed: true });
+            if (this.state.ships.length < 1) {
+                this.setState({ destroyed: true });
+                this.props.gameWon(this.props.name);
+            } else this.props.changeTurn();
         }
     }, {
         key: 'checkShips',
@@ -18379,18 +18528,31 @@ var Board = function (_React$Component) {
             return cellsRemaining.length < 1;
         }
     }, {
+        key: 'auto',
+        value: function auto() {
+            this.strikeHandler(_autoPlay2.default.takeTurn(this.state.grid, this.state.ships));
+        }
+    }, {
         key: 'render',
         value: function render() {
+            if (this.props.computer && this.props.turn) setTimeout(this.auto, 500);
             var grid = this.state.grid;
             var width = this.props.width;
             var cellSize = width / grid.length;
-            var strikeHandler = this.strikeHandler;
+            var strikeHandler = this.props.computer ? function () {
+                return '';
+            } : this.strikeHandler;
             return _react2.default.createElement(
                 'div',
-                { className: 'board', style: { width: width } },
+                { className: 'board' },
+                _react2.default.createElement(
+                    'h1',
+                    null,
+                    this.props.name || 'Player'
+                ),
                 _react2.default.createElement(
                     'div',
-                    { className: 'grid', style: { width: width } },
+                    { className: 'grid ' + (this.props.turn && 'turn') },
                     this.state.grid.map(function (row, i) {
                         return _react2.default.createElement(
                             'div',
@@ -18416,7 +18578,7 @@ var Board = function (_React$Component) {
 exports.default = Board;
 
 /***/ }),
-/* 29 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18446,41 +18608,7 @@ var Cell = function Cell(props) {
 exports.default = Cell;
 
 /***/ }),
-/* 30 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _ships = __webpack_require__(31);
-
-function generateGrid(size) {
-    var grid = [];
-    for (var i = 0; i < size; i++) {
-        var row = [];
-        for (var j = 0; j < size; j++) {
-            row.push({
-                row: i,
-                col: j,
-                ship: false,
-                hit: false,
-                sunk: false
-            });
-        }
-        grid.push(row);
-    }
-    var ships = (0, _ships.placeShips)(grid);
-    var sunk = [];
-    var destroyed = false;
-    return { grid: grid, ships: ships, sunk: sunk };
-}
-
-module.exports = {
-    generateGrid: generateGrid
-};
-
-/***/ }),
-/* 31 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18531,6 +18659,43 @@ function placeShipVertical(length, grid) {
 }
 
 module.exports = { placeShips: placeShips };
+
+/***/ }),
+/* 33 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function takeTurn(grid, ships) {
+    if (ships) {
+        if (shipBurning(ships)) return targetShip(grid, ships);
+    }
+    var row = Math.floor(Math.random() * grid.length);
+    var col = Math.floor(Math.random() * grid[row].length);
+    if (grid[row][col].hit) return takeTurn(grid);else return grid[row][col];
+}
+
+function shipBurning(ships) {
+    var burning = ships.find(function (ship) {
+        return ship.find(function (cell) {
+            return cell.hit && !cell.sunk;
+        });
+    });
+    return burning;
+}
+
+function targetShip(grid, ships) {
+    var ship = shipBurning(ships);
+    var cell = ship.find(function (cell) {
+        return !cell.hit;
+    });
+    return cell;
+}
+
+module.exports = {
+    takeTurn: takeTurn
+};
 
 /***/ })
 /******/ ]);

@@ -1,11 +1,11 @@
 import React from 'react'
 
-import Board from './Board'
+import Game from './Game'
 
-const App = () => (
-  <div>  
-    <Board width={500}/>
-  </div>
+const width = 500
+
+const App = () => (  
+  <Game width={width} />
 )
 
 export default App
