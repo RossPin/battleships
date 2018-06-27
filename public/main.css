@@ -49,3 +49,7 @@ h1 {
 .sunk {
   background-color: rgba(180,50,50,0.6);
 }
+
+.animation {
+  width: 100%
+}

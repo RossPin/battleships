@@ -27,16 +27,29 @@ class Board extends React.Component {
 
     strikeHandler(cell) {
         if (this.state.destroyed) return
-        if (!this.props.turn) return         
+        if (!this.props.turn || this.state.processing) return
+        const timeout = cell.ship ? 2000 : 1200          
         const grid = this.state.grid
         grid[cell.row][cell.col].hit = true
-        this.checkShips()      
-        this.setState({grid})
-        if (this.state.ships.length<1) {
-            this.setState({destroyed: true})
-            this.props.gameWon(this.props.name)
-        }
-        else this.props.changeTurn()
+        grid[cell.row][cell.col].animation = true
+        //this.playSound(cell.ship)             
+        this.setState({grid, processing: true})
+        setTimeout(()=>{
+            this.checkShips()
+            grid[cell.row][cell.col].animation = false
+            this.setState({grid, processing: false})
+            if (this.state.ships.length<1) {
+                this.setState({destroyed: true})
+                this.props.gameWon(this.props.name)
+            }
+            else this.props.changeTurn()
+        }, timeout)                
+    }
+
+    playSound(ship){
+        const soundFile = ship ? '/sounds/bomb.mp3' : '/sounds/splash.mp3'
+        const audio = new Audio(soundFile)
+        audio.play()
     }
 
     checkShips(){
@@ -62,7 +75,7 @@ class Board extends React.Component {
     }
 
     render(){
-        if (this.props.computer && this.props.turn) setTimeout(this.auto, 500)        
+        if (this.props.computer && this.props.turn && !this.state.processing) setTimeout(this.auto, 500)        
         const grid = this.state.grid
         const width = this.props.width
         const cellSize = width / grid.length

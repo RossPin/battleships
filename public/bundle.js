@@ -18501,32 +18501,48 @@ var Board = function (_React$Component) {
     }, {
         key: 'strikeHandler',
         value: function strikeHandler(cell) {
+            var _this2 = this;
+
             if (this.state.destroyed) return;
-            if (!this.props.turn) return;
+            if (!this.props.turn || this.state.processing) return;
+            var timeout = cell.ship ? 2000 : 1200;
             var grid = this.state.grid;
             grid[cell.row][cell.col].hit = true;
-            this.checkShips();
-            this.setState({ grid: grid });
-            if (this.state.ships.length < 1) {
-                this.setState({ destroyed: true });
-                this.props.gameWon(this.props.name);
-            } else this.props.changeTurn();
+            grid[cell.row][cell.col].animation = true;
+            //this.playSound(cell.ship)             
+            this.setState({ grid: grid, processing: true });
+            setTimeout(function () {
+                _this2.checkShips();
+                grid[cell.row][cell.col].animation = false;
+                _this2.setState({ grid: grid, processing: false });
+                if (_this2.state.ships.length < 1) {
+                    _this2.setState({ destroyed: true });
+                    _this2.props.gameWon(_this2.props.name);
+                } else _this2.props.changeTurn();
+            }, timeout);
+        }
+    }, {
+        key: 'playSound',
+        value: function playSound(ship) {
+            var soundFile = ship ? '/sounds/bomb.mp3' : '/sounds/splash.mp3';
+            var audio = new Audio(soundFile);
+            audio.play();
         }
     }, {
         key: 'checkShips',
         value: function checkShips() {
-            var _this2 = this;
+            var _this3 = this;
 
             var ships = this.state.ships;
             ships.forEach(function (ship, i) {
-                if (_this2.checkSunk(ship, i)) {
+                if (_this3.checkSunk(ship, i)) {
                     ship.forEach(function (cell) {
                         return cell.sunk = true;
                     });
-                    var sunk = _this2.state.sunk;
+                    var sunk = _this3.state.sunk;
                     sunk.push(ship);
                     ships.splice(i, 1);
-                    _this2.setState({ sunk: sunk, ships: ships });
+                    _this3.setState({ sunk: sunk, ships: ships });
                 }
             });
         }
@@ -18546,7 +18562,7 @@ var Board = function (_React$Component) {
     }, {
         key: 'render',
         value: function render() {
-            if (this.props.computer && this.props.turn) setTimeout(this.auto, 500);
+            if (this.props.computer && this.props.turn && !this.state.processing) setTimeout(this.auto, 500);
             var grid = this.state.grid;
             var width = this.props.width;
             var cellSize = width / grid.length;
@@ -18609,11 +18625,15 @@ var Cell = function Cell(props) {
     var clickHandler = function clickHandler() {
         props.strikeHandler(props.cell);
     };
-
+    var image = props.cell.ship ? '/images/explosion.gif' : '/images/splash.gif';
     var ship = props.cell.ship ? 'ship' : '';
     var hit = props.cell.hit ? props.cell.ship ? 'hit' : 'miss' : '';
     var sunk = props.cell.sunk ? 'sunk' : '';
-    return _react2.default.createElement('div', { className: 'cell ' + ship + ' ' + hit + ' ' + sunk, style: { height: props.cellSize, width: props.cellSize }, onClick: clickHandler });
+    return _react2.default.createElement(
+        'div',
+        { className: 'cell ' + ship + ' ' + hit + ' ' + sunk, style: { height: props.cellSize, width: props.cellSize }, onClick: clickHandler },
+        props.cell.animation && _react2.default.createElement('img', { className: 'animation', src: image + '?' + Date.now(), alt: '' })
+    );
 };
 
 exports.default = Cell;
