@@ -940,8 +940,6 @@ module.exports = focusNode;
 "use strict";
 
 
-var _ships = __webpack_require__(32);
-
 function generateGrid(size) {
     var grid = [];
     for (var i = 0; i < size; i++) {
@@ -952,15 +950,14 @@ function generateGrid(size) {
                 col: j,
                 ship: false,
                 hit: false,
-                sunk: false
+                sunk: false,
+                animation: false
             });
         }
         grid.push(row);
     }
-    var ships = (0, _ships.placeShips)(grid);
-    var sunk = [];
-    var destroyed = false;
-    return { grid: grid, ships: ships, sunk: sunk };
+
+    return grid;
 }
 
 module.exports = {
@@ -18460,7 +18457,9 @@ var _Cell2 = _interopRequireDefault(_Cell);
 
 var _array = __webpack_require__(14);
 
-var _autoPlay = __webpack_require__(33);
+var _ships = __webpack_require__(33);
+
+var _autoPlay = __webpack_require__(32);
 
 var _autoPlay2 = _interopRequireDefault(_autoPlay);
 
@@ -18480,7 +18479,12 @@ var Board = function (_React$Component) {
 
         var _this = _possibleConstructorReturn(this, (Board.__proto__ || Object.getPrototypeOf(Board)).call(this, props));
 
-        _this.state = (0, _array.generateGrid)(20);
+        _this.state = {
+            grid: (0, _array.generateGrid)(20),
+            sunk: [],
+            destroyed: false,
+            processing: false
+        };
         _this.strikeHandler = _this.strikeHandler.bind(_this);
         _this.checkShips = _this.checkShips.bind(_this);
         _this.auto = _this.auto.bind(_this);
@@ -18488,6 +18492,13 @@ var Board = function (_React$Component) {
     }
 
     _createClass(Board, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            var grid = this.state.grid;
+            var ships = (0, _ships.placeShips)(grid);
+            this.setState({ grid: grid, ships: ships });
+        }
+    }, {
         key: 'strikeHandler',
         value: function strikeHandler(cell) {
             if (this.state.destroyed) return;
@@ -18614,6 +18625,43 @@ exports.default = Cell;
 "use strict";
 
 
+function takeTurn(grid, ships) {
+    if (ships) {
+        if (shipBurning(ships)) return targetShip(grid, ships);
+    }
+    var row = Math.floor(Math.random() * grid.length);
+    var col = Math.floor(Math.random() * grid[row].length);
+    if (grid[row][col].hit) return takeTurn(grid);else return grid[row][col];
+}
+
+function shipBurning(ships) {
+    var burning = ships.find(function (ship) {
+        return ship.find(function (cell) {
+            return cell.hit && !cell.sunk;
+        });
+    });
+    return burning;
+}
+
+function targetShip(grid, ships) {
+    var ship = shipBurning(ships);
+    var cell = ship.find(function (cell) {
+        return !cell.hit;
+    });
+    return cell;
+}
+
+module.exports = {
+    takeTurn: takeTurn
+};
+
+/***/ }),
+/* 33 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
 function placeShips(grid) {
   var ships = [];
   ships.push(placeShip(5, grid));
@@ -18659,43 +18707,6 @@ function placeShipVertical(length, grid) {
 }
 
 module.exports = { placeShips: placeShips };
-
-/***/ }),
-/* 33 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-function takeTurn(grid, ships) {
-    if (ships) {
-        if (shipBurning(ships)) return targetShip(grid, ships);
-    }
-    var row = Math.floor(Math.random() * grid.length);
-    var col = Math.floor(Math.random() * grid[row].length);
-    if (grid[row][col].hit) return takeTurn(grid);else return grid[row][col];
-}
-
-function shipBurning(ships) {
-    var burning = ships.find(function (ship) {
-        return ship.find(function (cell) {
-            return cell.hit && !cell.sunk;
-        });
-    });
-    return burning;
-}
-
-function targetShip(grid, ships) {
-    var ship = shipBurning(ships);
-    var cell = ship.find(function (cell) {
-        return !cell.hit;
-    });
-    return cell;
-}
-
-module.exports = {
-    takeTurn: takeTurn
-};
 
 /***/ })
 /******/ ]);

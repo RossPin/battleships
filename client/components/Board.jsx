@@ -2,16 +2,27 @@ import React from 'react'
 
 import Cell from './Cell'
 import {generateGrid} from '../array'
+import {placeShips} from '../ships'
 import autoPlay from '../autoPlay'
-
 
 class Board extends React.Component {
     constructor(props){
         super(props)
-        this.state = generateGrid(20)
+        this.state = {
+           grid: generateGrid(20),
+           sunk: [],
+           destroyed: false,
+           processing: false
+        }
         this.strikeHandler = this.strikeHandler.bind(this)
         this.checkShips = this.checkShips.bind(this)
         this.auto = this.auto.bind(this)
+    }
+
+    componentDidMount(){
+        const grid = this.state.grid
+        const ships = placeShips(grid)
+        this.setState({grid, ships})
     }
 
     strikeHandler(cell) {

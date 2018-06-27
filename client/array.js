@@ -1,4 +1,4 @@
-import {placeShips} from './ships'
+
 
 function generateGrid(size) {
     var grid = []
@@ -10,15 +10,14 @@ function generateGrid(size) {
                 col: j,
                 ship: false,
                 hit: false,
-                sunk: false
+                sunk: false,
+                animation: false
             })
         }
         grid.push(row)
     }
-    let ships = placeShips(grid)
-    let sunk = []
-    let destroyed = false    
-    return {grid, ships, sunk}
+       
+    return grid
 }
 
 module.exports = {
