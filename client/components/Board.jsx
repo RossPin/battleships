@@ -10,10 +10,10 @@ class Board extends React.Component {
         super(props)
         this.state = {
            grid: generateGrid(20),
-           sunk: [],
-           destroyed: false,
-           processing: false
-        }
+           sunk: []                      
+        } 
+        this.destroyed = false       
+        this.processing = false
         this.strikeHandler = this.strikeHandler.bind(this)
         this.checkShips = this.checkShips.bind(this)
         this.auto = this.auto.bind(this)
@@ -26,20 +26,21 @@ class Board extends React.Component {
     }
 
     strikeHandler(cell) {
-        if (this.state.destroyed) return
-        if (!this.props.turn || this.state.processing) return
+        if (cell.hit || !this.props.turn || this.processing) return        
+        this.processing =true
         const timeout = cell.ship ? 2000 : 1200          
         const grid = this.state.grid
         grid[cell.row][cell.col].hit = true
         grid[cell.row][cell.col].animation = true
         //this.playSound(cell.ship)             
-        this.setState({grid, processing: true})
+        this.setState({grid})
         setTimeout(()=>{
             this.checkShips()
             grid[cell.row][cell.col].animation = false
-            this.setState({grid, processing: false})
+            this.setState({grid})
+            this.processing = false
             if (this.state.ships.length<1) {
-                this.setState({destroyed: true})
+                this.destroyed = true
                 this.props.gameWon(this.props.name)
             }
             else this.props.changeTurn()
@@ -75,7 +76,7 @@ class Board extends React.Component {
     }
 
     render(){
-        if (this.props.computer && this.props.turn && !this.state.processing) setTimeout(this.auto, 500)        
+        if (this.props.computer && this.props.turn && !this.processing) setTimeout(this.auto, 500)        
         const grid = this.state.grid
         const width = this.props.width
         const cellSize = width / grid.length
@@ -92,7 +93,7 @@ class Board extends React.Component {
                         </div>
                     ))}
                 </div>
-                {this.state.destroyed && <h1>All Ships Destroyed</h1>}
+                {this.destroyed && <h1>All Ships Destroyed</h1>}
             </div>
         )
     }

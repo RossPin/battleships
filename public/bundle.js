@@ -18457,9 +18457,9 @@ var _Cell2 = _interopRequireDefault(_Cell);
 
 var _array = __webpack_require__(14);
 
-var _ships = __webpack_require__(33);
+var _ships = __webpack_require__(32);
 
-var _autoPlay = __webpack_require__(32);
+var _autoPlay = __webpack_require__(33);
 
 var _autoPlay2 = _interopRequireDefault(_autoPlay);
 
@@ -18481,10 +18481,10 @@ var Board = function (_React$Component) {
 
         _this.state = {
             grid: (0, _array.generateGrid)(20),
-            sunk: [],
-            destroyed: false,
-            processing: false
+            sunk: []
         };
+        _this.destroyed = false;
+        _this.processing = false;
         _this.strikeHandler = _this.strikeHandler.bind(_this);
         _this.checkShips = _this.checkShips.bind(_this);
         _this.auto = _this.auto.bind(_this);
@@ -18503,20 +18503,21 @@ var Board = function (_React$Component) {
         value: function strikeHandler(cell) {
             var _this2 = this;
 
-            if (this.state.destroyed) return;
-            if (!this.props.turn || this.state.processing) return;
+            if (cell.hit || !this.props.turn || this.processing) return;
+            this.processing = true;
             var timeout = cell.ship ? 2000 : 1200;
             var grid = this.state.grid;
             grid[cell.row][cell.col].hit = true;
             grid[cell.row][cell.col].animation = true;
             //this.playSound(cell.ship)             
-            this.setState({ grid: grid, processing: true });
+            this.setState({ grid: grid });
             setTimeout(function () {
                 _this2.checkShips();
                 grid[cell.row][cell.col].animation = false;
-                _this2.setState({ grid: grid, processing: false });
+                _this2.setState({ grid: grid });
+                _this2.processing = false;
                 if (_this2.state.ships.length < 1) {
-                    _this2.setState({ destroyed: true });
+                    _this2.destroyed = true;
                     _this2.props.gameWon(_this2.props.name);
                 } else _this2.props.changeTurn();
             }, timeout);
@@ -18562,7 +18563,7 @@ var Board = function (_React$Component) {
     }, {
         key: 'render',
         value: function render() {
-            if (this.props.computer && this.props.turn && !this.state.processing) setTimeout(this.auto, 500);
+            if (this.props.computer && this.props.turn && !this.processing) setTimeout(this.auto, 500);
             var grid = this.state.grid;
             var width = this.props.width;
             var cellSize = width / grid.length;
@@ -18590,7 +18591,7 @@ var Board = function (_React$Component) {
                         );
                     })
                 ),
-                this.state.destroyed && _react2.default.createElement(
+                this.destroyed && _react2.default.createElement(
                     'h1',
                     null,
                     'All Ships Destroyed'
@@ -18645,43 +18646,6 @@ exports.default = Cell;
 "use strict";
 
 
-function takeTurn(grid, ships) {
-    if (ships) {
-        if (shipBurning(ships)) return targetShip(grid, ships);
-    }
-    var row = Math.floor(Math.random() * grid.length);
-    var col = Math.floor(Math.random() * grid[row].length);
-    if (grid[row][col].hit) return takeTurn(grid);else return grid[row][col];
-}
-
-function shipBurning(ships) {
-    var burning = ships.find(function (ship) {
-        return ship.find(function (cell) {
-            return cell.hit && !cell.sunk;
-        });
-    });
-    return burning;
-}
-
-function targetShip(grid, ships) {
-    var ship = shipBurning(ships);
-    var cell = ship.find(function (cell) {
-        return !cell.hit;
-    });
-    return cell;
-}
-
-module.exports = {
-    takeTurn: takeTurn
-};
-
-/***/ }),
-/* 33 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
 function placeShips(grid) {
   var ships = [];
   ships.push(placeShip(5, grid));
@@ -18727,6 +18691,43 @@ function placeShipVertical(length, grid) {
 }
 
 module.exports = { placeShips: placeShips };
+
+/***/ }),
+/* 33 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function takeTurn(grid, ships) {
+    if (ships) {
+        if (shipBurning(ships)) return targetShip(grid, ships);
+    }
+    var row = Math.floor(Math.random() * grid.length);
+    var col = Math.floor(Math.random() * grid[row].length);
+    if (grid[row][col].hit) return takeTurn(grid);else return grid[row][col];
+}
+
+function shipBurning(ships) {
+    var burning = ships.find(function (ship) {
+        return ship.find(function (cell) {
+            return cell.hit && !cell.sunk;
+        });
+    });
+    return burning;
+}
+
+function targetShip(grid, ships) {
+    var ship = shipBurning(ships);
+    var cell = ship.find(function (cell) {
+        return !cell.hit;
+    });
+    return cell;
+}
+
+module.exports = {
+    takeTurn: takeTurn
+};
 
 /***/ })
 /******/ ]);
