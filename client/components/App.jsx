@@ -34,6 +34,7 @@ class App extends React.Component {
   render(){
     return ( 
       <div>
+        <h1>BATTLESHIPS</h1>
       {this.gameStarted ? <Game newGame={this.newGame} {...this.state} /> : <Settings startGame={this.startGame} {...this.state} />}     
       </div>
     )

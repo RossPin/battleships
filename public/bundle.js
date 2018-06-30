@@ -18372,6 +18372,11 @@ var App = function (_React$Component) {
       return _react2.default.createElement(
         'div',
         null,
+        _react2.default.createElement(
+          'h1',
+          null,
+          'BATTLESHIPS'
+        ),
         this.gameStarted ? _react2.default.createElement(_Game2.default, _extends({ newGame: this.newGame }, this.state)) : _react2.default.createElement(_Settings2.default, _extends({ startGame: this.startGame }, this.state))
       );
     }
@@ -18473,13 +18478,13 @@ var Game = function (_React$Component) {
                     'New Game'
                 ),
                 !this.state.winner && _react2.default.createElement(
-                    'h1',
+                    'h2',
                     null,
                     this.state.player1.turn ? this.state.player2.name : this.state.player1.name,
                     ' Attack!!!!'
                 ),
                 this.state.winner && _react2.default.createElement(
-                    'h1',
+                    'h2',
                     null,
                     this.state.winner,
                     ' WINS!!!!!!!'
@@ -18658,12 +18663,12 @@ var Board = function (_React$Component) {
                     )
                 ),
                 _react2.default.createElement(
-                    'h2',
+                    'h3',
                     null,
                     this.props.name || 'Player'
                 ),
                 this.destroyed && _react2.default.createElement(
-                    'h2',
+                    'h3',
                     null,
                     'All Ships Destroyed'
                 )

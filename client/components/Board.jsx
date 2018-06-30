@@ -94,8 +94,8 @@ class Board extends React.Component {
                       ))}
                   </div>
                 </div>
-                <h2>{this.props.name || 'Player'}</h2>
-                {this.destroyed && <h2>All Ships Destroyed</h2>}
+                <h3>{this.props.name || 'Player'}</h3>
+                {this.destroyed && <h3>All Ships Destroyed</h3>}
             </div>
         )
     }

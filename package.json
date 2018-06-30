@@ -4,7 +4,9 @@
   "description": "An implementation of the classic game of battleships",
   "main": "server/index.js",
   "scripts": {
-    "start": "node server & webpack --watch"
+    "start": "node server",
+    "dev": "node server & webpack --watch",
+    "postinstall": "webpack"
   },
   "repository": "https://github.com/ruru-bootcamp-2018/battleships.git",
   "author": "EDA",
@@ -20,9 +22,7 @@
     ]
   },
   "dependencies": {
-    "express": "^4.16.2"
-  },
-  "devDependencies": {
+    "express": "^4.16.2",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-preset-env": "^1.6.1",
@@ -30,5 +30,8 @@
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "webpack": "^3.10.0"
+  },
+  "devDependencies": {
+    
   }
 }
