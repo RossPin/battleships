@@ -81,6 +81,7 @@ class Board extends React.Component {
         const width = this.props.width
         const cellSize = width / grid.length
         const strikeHandler = this.props.opponentComputer ? ()=>'' : this.strikeHandler
+        const opponentComputer = this.props.opponentComputer
         return (
             <div className='board' >                
                 <div className={`gridSurround${this.props.turn ? 'Turn' : ''}`} >
@@ -88,7 +89,7 @@ class Board extends React.Component {
                       {this.state.grid.map((row, i) => (
                           <div key={i} className='row' style={{height: cellSize}}>
                               {row.map((cell, i) => (
-                                  <Cell key={i} strikeHandler={strikeHandler} cellSize={cellSize} cell={cell}/>
+                                  <Cell key={i} strikeHandler={strikeHandler} cellSize={cellSize} cell={cell} opponentComputer={opponentComputer}/>
                               ))}
                           </div>
                       ))}

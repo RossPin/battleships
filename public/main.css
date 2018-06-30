@@ -79,7 +79,11 @@ h3 {
 }
 
 .ship {
-  background-color: rgba(50,50,50,0.3);
+  background-color: rgba(50,50,50,0.4);
+}
+
+.hiddenShip {
+  background-color: rgba(50,50,50,0.0);
 }
 
 .hit {  

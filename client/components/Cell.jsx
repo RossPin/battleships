@@ -7,7 +7,8 @@ const Cell = props => {
         props.strikeHandler(props.cell)
     }
     const image = (props.cell.ship) ? '/images/explosion.gif' : '/images/splash.gif'
-    const ship = (props.cell.ship) ? 'ship' : ''
+    const ship = (props.cell.ship) ? (props.opponentComputer) ? 'ship' : 'hiddenShip' : ''
+    
     const hit = (props.cell.hit) ? (props.cell.ship) ? 'hit' : 'miss' : ''
     const sunk = (props.cell.sunk) ? 'sunk' : ''
     return (

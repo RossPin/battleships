@@ -18581,7 +18581,7 @@ var Board = function (_React$Component) {
             var grid = this.state.grid;
             grid[cell.row][cell.col].hit = true;
             grid[cell.row][cell.col].animation = true;
-            //this.playSound(cell.ship)             
+            this.playSound(cell.ship);
             this.setState({ grid: grid });
             setTimeout(function () {
                 _this2.checkShips();
@@ -18642,6 +18642,7 @@ var Board = function (_React$Component) {
             var strikeHandler = this.props.opponentComputer ? function () {
                 return '';
             } : this.strikeHandler;
+            var opponentComputer = this.props.opponentComputer;
             return _react2.default.createElement(
                 'div',
                 { className: 'board' },
@@ -18656,7 +18657,7 @@ var Board = function (_React$Component) {
                                 'div',
                                 { key: i, className: 'row', style: { height: cellSize } },
                                 row.map(function (cell, i) {
-                                    return _react2.default.createElement(_Cell2.default, { key: i, strikeHandler: strikeHandler, cellSize: cellSize, cell: cell });
+                                    return _react2.default.createElement(_Cell2.default, { key: i, strikeHandler: strikeHandler, cellSize: cellSize, cell: cell, opponentComputer: opponentComputer });
                                 })
                             );
                         })
@@ -18703,7 +18704,8 @@ var Cell = function Cell(props) {
         props.strikeHandler(props.cell);
     };
     var image = props.cell.ship ? '/images/explosion.gif' : '/images/splash.gif';
-    var ship = props.cell.ship ? 'ship' : '';
+    var ship = props.cell.ship ? props.opponentComputer ? 'ship' : 'hiddenShip' : '';
+
     var hit = props.cell.hit ? props.cell.ship ? 'hit' : 'miss' : '';
     var sunk = props.cell.sunk ? 'sunk' : '';
     return _react2.default.createElement(
