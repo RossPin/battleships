@@ -34,7 +34,7 @@ class Settings extends React.Component {
     render(){
         return (
             <div className='settings'>
-                <h1>Settings</h1>
+                <h2>Settings</h2>
                 <form>
                     <input name='name1' value={this.state.name1} type='text' onChange={this.onChange} /><br/>
                     <input type='radio' name='computer1' value='true' checked={this.state.computer1} onChange={this.radioOnChange}/>Computer

@@ -18472,14 +18472,6 @@ var Game = function (_React$Component) {
                     { onClick: this.props.newGame },
                     'New Game'
                 ),
-                _react2.default.createElement(
-                    'div',
-                    { className: 'game', style: { width: this.props.width * 2 + 262 } },
-                    _react2.default.createElement(_Board2.default, _extends({}, this.state.player1, {
-                        changeTurn: this.changeTurn, gameWon: this.gameWon, width: this.props.width })),
-                    _react2.default.createElement(_Board2.default, _extends({}, this.state.player2, {
-                        changeTurn: this.changeTurn, gameWon: this.gameWon, width: this.props.width }))
-                ),
                 !this.state.winner && _react2.default.createElement(
                     'h1',
                     null,
@@ -18491,6 +18483,14 @@ var Game = function (_React$Component) {
                     null,
                     this.state.winner,
                     ' WINS!!!!!!!'
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'game', style: { width: this.props.width * 2 + 262 } },
+                    _react2.default.createElement(_Board2.default, _extends({}, this.state.player1, {
+                        changeTurn: this.changeTurn, gameWon: this.gameWon, width: this.props.width })),
+                    _react2.default.createElement(_Board2.default, _extends({}, this.state.player2, {
+                        changeTurn: this.changeTurn, gameWon: this.gameWon, width: this.props.width }))
                 )
             );
         }
@@ -18641,11 +18641,6 @@ var Board = function (_React$Component) {
                 'div',
                 { className: 'board' },
                 _react2.default.createElement(
-                    'h1',
-                    null,
-                    this.props.name || 'Player'
-                ),
-                _react2.default.createElement(
                     'div',
                     { className: 'gridSurround' + (this.props.turn ? 'Turn' : '') },
                     _react2.default.createElement(
@@ -18662,8 +18657,13 @@ var Board = function (_React$Component) {
                         })
                     )
                 ),
+                _react2.default.createElement(
+                    'h2',
+                    null,
+                    this.props.name || 'Player'
+                ),
                 this.destroyed && _react2.default.createElement(
-                    'h1',
+                    'h2',
                     null,
                     'All Ships Destroyed'
                 )
@@ -18872,7 +18872,7 @@ var Settings = function (_React$Component) {
                 'div',
                 { className: 'settings' },
                 _react2.default.createElement(
-                    'h1',
+                    'h2',
                     null,
                     'Settings'
                 ),

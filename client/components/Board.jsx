@@ -82,20 +82,20 @@ class Board extends React.Component {
         const cellSize = width / grid.length
         const strikeHandler = this.props.opponentComputer ? ()=>'' : this.strikeHandler
         return (
-            <div className='board' >
-                <h1>{this.props.name || 'Player'}</h1>
+            <div className='board' >                
                 <div className={`gridSurround${this.props.turn ? 'Turn' : ''}`} >
-                <div className={`grid ${this.props.turn && 'turn'}`} >
-                    {this.state.grid.map((row, i) => (
-                        <div key={i} className='row' style={{height: cellSize}}>
-                            {row.map((cell, i) => (
-                                <Cell key={i} strikeHandler={strikeHandler} cellSize={cellSize} cell={cell}/>
-                            ))}
-                        </div>
-                    ))}
+                  <div className={`grid ${this.props.turn && 'turn'}`} >
+                      {this.state.grid.map((row, i) => (
+                          <div key={i} className='row' style={{height: cellSize}}>
+                              {row.map((cell, i) => (
+                                  <Cell key={i} strikeHandler={strikeHandler} cellSize={cellSize} cell={cell}/>
+                              ))}
+                          </div>
+                      ))}
+                  </div>
                 </div>
-                </div>
-                {this.destroyed && <h1>All Ships Destroyed</h1>}
+                <h2>{this.props.name || 'Player'}</h2>
+                {this.destroyed && <h2>All Ships Destroyed</h2>}
             </div>
         )
     }
