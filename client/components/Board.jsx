@@ -84,6 +84,7 @@ class Board extends React.Component {
         return (
             <div className='board' >
                 <h1>{this.props.name || 'Player'}</h1>
+                <div className={`gridSurround${this.props.turn ? 'Turn' : ''}`} >
                 <div className={`grid ${this.props.turn && 'turn'}`} >
                     {this.state.grid.map((row, i) => (
                         <div key={i} className='row' style={{height: cellSize}}>
@@ -92,6 +93,7 @@ class Board extends React.Component {
                             ))}
                         </div>
                     ))}
+                </div>
                 </div>
                 {this.destroyed && <h1>All Ships Destroyed</h1>}
             </div>

@@ -8,11 +8,11 @@ class Game extends React.Component {
         super(props)
         this.state = {
             player1: {turn: true,
-                        computer: false,
-                    name: 'Player 1'},
+                        computer: props.computer1,
+                    name: props.name1},
             player2: {turn: false,
-                computer: true,
-                name: 'Computer'},
+                computer: props.computer2,
+                name: props.name2},
             winner: false            
         }
         this.changeTurn = this.changeTurn.bind(this)
@@ -37,7 +37,8 @@ class Game extends React.Component {
     render(){
         return (
             <div>
-                <div className='game' style={{width: this.props.width*2}}>  
+              <button onClick={this.props.newGame}>New Game</button>
+                <div className='game' style={{width: this.props.width*2+262}}>  
             <Board {...this.state.player1}  
                     changeTurn={this.changeTurn} gameWon={this.gameWon} width={this.props.width}/>
                     <Board {...this.state.player2}
