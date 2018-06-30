@@ -18425,10 +18425,10 @@ var Game = function (_React$Component) {
 
         _this.state = {
             player1: { turn: true,
-                computer: props.computer1,
+                opponentComputer: props.computer2,
                 name: props.name1 },
             player2: { turn: false,
-                computer: props.computer2,
+                opponentComputer: props.computer1,
                 name: props.name2 },
             winner: false
         };
@@ -18458,7 +18458,7 @@ var Game = function (_React$Component) {
 
             player1.turn = false;
             player2.turn = false;
-            winner = player;
+            winner = player == player1.name ? player2.name : player1.name;
             this.setState({ player1: player1, player2: player2, winner: winner });
         }
     }, {
@@ -18479,6 +18479,12 @@ var Game = function (_React$Component) {
                         changeTurn: this.changeTurn, gameWon: this.gameWon, width: this.props.width })),
                     _react2.default.createElement(_Board2.default, _extends({}, this.state.player2, {
                         changeTurn: this.changeTurn, gameWon: this.gameWon, width: this.props.width }))
+                ),
+                !this.state.winner && _react2.default.createElement(
+                    'h1',
+                    null,
+                    this.state.player1.turn ? this.state.player2.name : this.state.player1.name,
+                    ' Attack!!!!'
                 ),
                 this.state.winner && _react2.default.createElement(
                     'h1',
@@ -18541,7 +18547,7 @@ var Board = function (_React$Component) {
         var _this = _possibleConstructorReturn(this, (Board.__proto__ || Object.getPrototypeOf(Board)).call(this, props));
 
         _this.state = {
-            grid: (0, _array.generateGrid)(20),
+            grid: (0, _array.generateGrid)(15),
             sunk: []
         };
         _this.destroyed = false;
@@ -18624,11 +18630,11 @@ var Board = function (_React$Component) {
     }, {
         key: 'render',
         value: function render() {
-            if (this.props.computer && this.props.turn && !this.processing) setTimeout(this.auto, 500);
+            if (this.props.opponentComputer && this.props.turn && !this.processing) setTimeout(this.auto, 500);
             var grid = this.state.grid;
             var width = this.props.width;
             var cellSize = width / grid.length;
-            var strikeHandler = this.props.computer ? function () {
+            var strikeHandler = this.props.opponentComputer ? function () {
                 return '';
             } : this.strikeHandler;
             return _react2.default.createElement(
@@ -18874,6 +18880,7 @@ var Settings = function (_React$Component) {
                     'form',
                     null,
                     _react2.default.createElement('input', { name: 'name1', value: this.state.name1, type: 'text', onChange: this.onChange }),
+                    _react2.default.createElement('br', null),
                     _react2.default.createElement('input', { type: 'radio', name: 'computer1', value: 'true', checked: this.state.computer1, onChange: this.radioOnChange }),
                     'Computer',
                     _react2.default.createElement('input', { type: 'radio', name: 'computer1', value: 'false', checked: !this.state.computer1, onChange: this.radioOnChange }),
@@ -18883,6 +18890,7 @@ var Settings = function (_React$Component) {
                     'form',
                     null,
                     _react2.default.createElement('input', { name: 'name2', value: this.state.name2, type: 'text', onChange: this.onChange }),
+                    _react2.default.createElement('br', null),
                     _react2.default.createElement('input', { type: 'radio', name: 'computer2', value: 'true', checked: this.state.computer2, onChange: this.radioOnChange }),
                     'Computer',
                     _react2.default.createElement('input', { type: 'radio', name: 'computer2', value: 'false', checked: !this.state.computer2, onChange: this.radioOnChange }),

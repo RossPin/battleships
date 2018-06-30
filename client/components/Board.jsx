@@ -9,7 +9,7 @@ class Board extends React.Component {
     constructor(props){
         super(props)
         this.state = {
-           grid: generateGrid(20),
+           grid: generateGrid(15),
            sunk: []                      
         } 
         this.destroyed = false       
@@ -76,11 +76,11 @@ class Board extends React.Component {
     }
 
     render(){
-        if (this.props.computer && this.props.turn && !this.processing) setTimeout(this.auto, 500)        
+        if (this.props.opponentComputer && this.props.turn && !this.processing) setTimeout(this.auto, 500)        
         const grid = this.state.grid
         const width = this.props.width
         const cellSize = width / grid.length
-        const strikeHandler = this.props.computer ? ()=>'' : this.strikeHandler
+        const strikeHandler = this.props.opponentComputer ? ()=>'' : this.strikeHandler
         return (
             <div className='board' >
                 <h1>{this.props.name || 'Player'}</h1>

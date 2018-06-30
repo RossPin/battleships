@@ -36,12 +36,12 @@ class Settings extends React.Component {
             <div className='settings'>
                 <h1>Settings</h1>
                 <form>
-                    <input name='name1' value={this.state.name1} type='text' onChange={this.onChange} />
+                    <input name='name1' value={this.state.name1} type='text' onChange={this.onChange} /><br/>
                     <input type='radio' name='computer1' value='true' checked={this.state.computer1} onChange={this.radioOnChange}/>Computer
                     <input type='radio' name='computer1' value='false' checked={!this.state.computer1} onChange={this.radioOnChange}/>Human
                 </form>
                 <form>
-                    <input name='name2' value={this.state.name2} type='text' onChange={this.onChange} />
+                    <input name='name2' value={this.state.name2} type='text' onChange={this.onChange} /><br/>
                     <input type='radio' name='computer2' value='true' checked={this.state.computer2} onChange={this.radioOnChange}/>Computer
                     <input type='radio' name='computer2' value='false' checked={!this.state.computer2} onChange={this.radioOnChange}/>Human
                     

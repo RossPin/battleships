@@ -1,5 +1,6 @@
 body{
-  background-color: grey;
+  background: linear-gradient(to bottom right,#555, #222) fixed;
+  background-size: cover;
 }
 
 .game {
@@ -27,6 +28,8 @@ body{
   margin-top: 30vh;
   border: 4px solid black;
   border-radius: 10px;
+  text-align: center;
+  background-color: oldlace;
 }
 
 
@@ -79,7 +82,7 @@ h1 {
   width: 100%
 }
 
-button {
+button,form{
   display: block;
-  margin: 10px auto;
+  margin: 20px auto;
 }
