@@ -8,11 +8,11 @@ class Game extends React.Component {
         super(props)
         this.state = {
             player1: {turn: true,
-                        computer: false,
-                    name: 'Player 1'},
+                        opponentComputer: props.computer2,
+                    name: props.name1},
             player2: {turn: false,
-                computer: true,
-                name: 'Computer'},
+              opponentComputer: props.computer1,
+                name: props.name2},
             winner: false            
         }
         this.changeTurn = this.changeTurn.bind(this)
@@ -30,20 +30,23 @@ class Game extends React.Component {
         let {player1, player2, winner} = this.state
         player1.turn = false
         player2.turn = false
-        winner = player
+        winner = (player == player1.name) ? player2.name : player1.name
         this.setState({player1, player2, winner})
     }
 
     render(){
         return (
             <div>
-                <div className='game' style={{width: this.props.width*2}}>  
-            <Board {...this.state.player1}  
-                    changeTurn={this.changeTurn} gameWon={this.gameWon} width={this.props.width}/>
-                    <Board {...this.state.player2}
-                    changeTurn={this.changeTurn} gameWon={this.gameWon} width={this.props.width}/>                
-                </div>
-                {this.state.winner && <h1>{this.state.winner} WINS!!!!!!!</h1>}
+              <button onClick={this.props.newGame}>New Game</button>
+              {!this.state.winner && <h1>{this.state.player1.turn ? this.state.player2.name : this.state.player1.name} Attack!!!!</h1>}
+              {this.state.winner && <h1>{this.state.winner} WINS!!!!!!!</h1>}
+              <div className='game' style={{width: this.props.width*2+262}}>  
+                <Board {...this.state.player1}  
+                  changeTurn={this.changeTurn} gameWon={this.gameWon} width={this.props.width}/>
+                <Board {...this.state.player2}
+                  changeTurn={this.changeTurn} gameWon={this.gameWon} width={this.props.width}/>                
+              </div>
+              
             </div>
         )
     }

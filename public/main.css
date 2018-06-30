@@ -1,7 +1,35 @@
+body{
+  background: linear-gradient(to bottom right,#555, #222) fixed;
+  background-size: cover;
+}
+
 .game {
   display: flex;
   margin-left: auto;
-  margin-right: auto; 
+  margin-right: auto;   
+}
+
+.gridSurround {
+  padding: 50px ;
+  border: 3px solid black;
+  border-radius: 10px;
+  background-color: darkslategrey;
+}
+.gridSurroundTurn {
+  padding: 43px ;
+  border: 3px solid black;
+  border-radius: 10px;
+  background-color: darkslategrey;
+}
+
+.settings {
+  width: 30%;
+  margin-left: 35%;
+  margin-top: 30vh;
+  border: 4px solid black;
+  border-radius: 10px;
+  text-align: center;
+  background-color: oldlace;
 }
 
 
@@ -9,7 +37,7 @@
   background-image: url('/images/ocean.jpg');
   background-size: cover;
   border: 3px solid black; 
-  margin-top: 30px;
+  margin-top: 0px;
 }
 
 .turn {
@@ -29,10 +57,16 @@
 
 h1 {
   text-align: center;
+  font-size: 4em;
+}
+
+h2 {
+  text-align: center;
+  font-size: 2em;
 }
 
 .ship {
-  background-color: rgba(100,100,100,0.3);
+  background-color: rgba(50,50,50,0.3);
 }
 
 .hit {  
@@ -41,7 +75,7 @@ h1 {
 }
 
 .miss {
-  background-image: url('/images/DeadFishArt.png');
+  background-image: url('/images/DeadFish.png');
   background-repeat: no-repeat;
   background-size: 100% auto;
 }
@@ -49,3 +83,20 @@ h1 {
 .sunk {
   background-color: rgba(180,50,50,0.6);
 }
+
+.animation {
+  width: 100%
+}
+
+button {
+  display: block;
+  margin: 20px auto;
+  padding: 0.7em 1.7em;
+  border-radius: 0.2em;
+  box-sizing: border-box;
+  background-color: #3369ff;
+  color:#FFFFFF;
+  box-shadow:inset 0 -0.6em 1em -0.35em rgba(0,0,0,0.17),inset 0 0.6em 2em -0.3em rgba(255,255,255,0.15),inset 0 0 0em 0.05em rgba(255,255,255,0.12);
+}
+
+

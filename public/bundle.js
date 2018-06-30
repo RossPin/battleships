@@ -940,8 +940,6 @@ module.exports = focusNode;
 "use strict";
 
 
-var _ships = __webpack_require__(32);
-
 function generateGrid(size) {
     var grid = [];
     for (var i = 0; i < size; i++) {
@@ -952,15 +950,14 @@ function generateGrid(size) {
                 col: j,
                 ship: false,
                 hit: false,
-                sunk: false
+                sunk: false,
+                animation: false
             });
         }
         grid.push(row);
     }
-    var ships = (0, _ships.placeShips)(grid);
-    var sunk = [];
-    var destroyed = false;
-    return { grid: grid, ships: ships, sunk: sunk };
+
+    return grid;
 }
 
 module.exports = {
@@ -18311,6 +18308,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
@@ -18319,13 +18320,65 @@ var _Game = __webpack_require__(29);
 
 var _Game2 = _interopRequireDefault(_Game);
 
+var _Settings = __webpack_require__(34);
+
+var _Settings2 = _interopRequireDefault(_Settings);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var width = 500;
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var App = function App() {
-  return _react2.default.createElement(_Game2.default, { width: width });
-};
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var App = function (_React$Component) {
+  _inherits(App, _React$Component);
+
+  function App(props) {
+    _classCallCheck(this, App);
+
+    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
+
+    _this.state = {
+      name1: 'Player 1',
+      computer1: false,
+      name2: 'Computer',
+      computer2: true,
+      width: 500
+    };
+    _this.gameStarted = false;
+    _this.startGame = _this.startGame.bind(_this);
+    _this.newGame = _this.newGame.bind(_this);
+    return _this;
+  }
+
+  _createClass(App, [{
+    key: 'startGame',
+    value: function startGame(setting) {
+      this.gameStarted = true;
+      this.setState(setting);
+    }
+  }, {
+    key: 'newGame',
+    value: function newGame(e) {
+      e.preventDefault();
+      this.gameStarted = false;
+      this.setState({});
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        null,
+        this.gameStarted ? _react2.default.createElement(_Game2.default, _extends({ newGame: this.newGame }, this.state)) : _react2.default.createElement(_Settings2.default, _extends({ startGame: this.startGame }, this.state))
+      );
+    }
+  }]);
+
+  return App;
+}(_react2.default.Component);
 
 exports.default = App;
 
@@ -18372,11 +18425,11 @@ var Game = function (_React$Component) {
 
         _this.state = {
             player1: { turn: true,
-                computer: false,
-                name: 'Player 1' },
+                opponentComputer: props.computer2,
+                name: props.name1 },
             player2: { turn: false,
-                computer: true,
-                name: 'Computer' },
+                opponentComputer: props.computer1,
+                name: props.name2 },
             winner: false
         };
         _this.changeTurn = _this.changeTurn.bind(_this);
@@ -18405,7 +18458,7 @@ var Game = function (_React$Component) {
 
             player1.turn = false;
             player2.turn = false;
-            winner = player;
+            winner = player == player1.name ? player2.name : player1.name;
             this.setState({ player1: player1, player2: player2, winner: winner });
         }
     }, {
@@ -18415,18 +18468,29 @@ var Game = function (_React$Component) {
                 'div',
                 null,
                 _react2.default.createElement(
-                    'div',
-                    { className: 'game', style: { width: this.props.width * 2 } },
-                    _react2.default.createElement(_Board2.default, _extends({}, this.state.player1, {
-                        changeTurn: this.changeTurn, gameWon: this.gameWon, width: this.props.width })),
-                    _react2.default.createElement(_Board2.default, _extends({}, this.state.player2, {
-                        changeTurn: this.changeTurn, gameWon: this.gameWon, width: this.props.width }))
+                    'button',
+                    { onClick: this.props.newGame },
+                    'New Game'
+                ),
+                !this.state.winner && _react2.default.createElement(
+                    'h1',
+                    null,
+                    this.state.player1.turn ? this.state.player2.name : this.state.player1.name,
+                    ' Attack!!!!'
                 ),
                 this.state.winner && _react2.default.createElement(
                     'h1',
                     null,
                     this.state.winner,
                     ' WINS!!!!!!!'
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'game', style: { width: this.props.width * 2 + 262 } },
+                    _react2.default.createElement(_Board2.default, _extends({}, this.state.player1, {
+                        changeTurn: this.changeTurn, gameWon: this.gameWon, width: this.props.width })),
+                    _react2.default.createElement(_Board2.default, _extends({}, this.state.player2, {
+                        changeTurn: this.changeTurn, gameWon: this.gameWon, width: this.props.width }))
                 )
             );
         }
@@ -18460,6 +18524,8 @@ var _Cell2 = _interopRequireDefault(_Cell);
 
 var _array = __webpack_require__(14);
 
+var _ships = __webpack_require__(32);
+
 var _autoPlay = __webpack_require__(33);
 
 var _autoPlay2 = _interopRequireDefault(_autoPlay);
@@ -18480,7 +18546,12 @@ var Board = function (_React$Component) {
 
         var _this = _possibleConstructorReturn(this, (Board.__proto__ || Object.getPrototypeOf(Board)).call(this, props));
 
-        _this.state = (0, _array.generateGrid)(20);
+        _this.state = {
+            grid: (0, _array.generateGrid)(15),
+            sunk: []
+        };
+        _this.destroyed = false;
+        _this.processing = false;
         _this.strikeHandler = _this.strikeHandler.bind(_this);
         _this.checkShips = _this.checkShips.bind(_this);
         _this.auto = _this.auto.bind(_this);
@@ -18488,34 +18559,58 @@ var Board = function (_React$Component) {
     }
 
     _createClass(Board, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            var grid = this.state.grid;
+            var ships = (0, _ships.placeShips)(grid);
+            this.setState({ grid: grid, ships: ships });
+        }
+    }, {
         key: 'strikeHandler',
         value: function strikeHandler(cell) {
-            if (this.state.destroyed) return;
-            if (!this.props.turn) return;
+            var _this2 = this;
+
+            if (cell.hit || !this.props.turn || this.processing) return;
+            this.processing = true;
+            var timeout = cell.ship ? 2000 : 1200;
             var grid = this.state.grid;
             grid[cell.row][cell.col].hit = true;
-            this.checkShips();
+            grid[cell.row][cell.col].animation = true;
+            //this.playSound(cell.ship)             
             this.setState({ grid: grid });
-            if (this.state.ships.length < 1) {
-                this.setState({ destroyed: true });
-                this.props.gameWon(this.props.name);
-            } else this.props.changeTurn();
+            setTimeout(function () {
+                _this2.checkShips();
+                grid[cell.row][cell.col].animation = false;
+                _this2.setState({ grid: grid });
+                _this2.processing = false;
+                if (_this2.state.ships.length < 1) {
+                    _this2.destroyed = true;
+                    _this2.props.gameWon(_this2.props.name);
+                } else _this2.props.changeTurn();
+            }, timeout);
+        }
+    }, {
+        key: 'playSound',
+        value: function playSound(ship) {
+            var soundFile = ship ? '/sounds/bomb.mp3' : '/sounds/splash.mp3';
+            var audio = new Audio(soundFile);
+            audio.play();
         }
     }, {
         key: 'checkShips',
         value: function checkShips() {
-            var _this2 = this;
+            var _this3 = this;
 
             var ships = this.state.ships;
             ships.forEach(function (ship, i) {
-                if (_this2.checkSunk(ship, i)) {
+                if (_this3.checkSunk(ship, i)) {
                     ship.forEach(function (cell) {
                         return cell.sunk = true;
                     });
-                    var sunk = _this2.state.sunk;
+                    var sunk = _this3.state.sunk;
                     sunk.push(ship);
                     ships.splice(i, 1);
-                    _this2.setState({ sunk: sunk, ships: ships });
+                    _this3.setState({ sunk: sunk, ships: ships });
                 }
             });
         }
@@ -18535,36 +18630,40 @@ var Board = function (_React$Component) {
     }, {
         key: 'render',
         value: function render() {
-            if (this.props.computer && this.props.turn) setTimeout(this.auto, 500);
+            if (this.props.opponentComputer && this.props.turn && !this.processing) setTimeout(this.auto, 500);
             var grid = this.state.grid;
             var width = this.props.width;
             var cellSize = width / grid.length;
-            var strikeHandler = this.props.computer ? function () {
+            var strikeHandler = this.props.opponentComputer ? function () {
                 return '';
             } : this.strikeHandler;
             return _react2.default.createElement(
                 'div',
                 { className: 'board' },
                 _react2.default.createElement(
-                    'h1',
+                    'div',
+                    { className: 'gridSurround' + (this.props.turn ? 'Turn' : '') },
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'grid ' + (this.props.turn && 'turn') },
+                        this.state.grid.map(function (row, i) {
+                            return _react2.default.createElement(
+                                'div',
+                                { key: i, className: 'row', style: { height: cellSize } },
+                                row.map(function (cell, i) {
+                                    return _react2.default.createElement(_Cell2.default, { key: i, strikeHandler: strikeHandler, cellSize: cellSize, cell: cell });
+                                })
+                            );
+                        })
+                    )
+                ),
+                _react2.default.createElement(
+                    'h2',
                     null,
                     this.props.name || 'Player'
                 ),
-                _react2.default.createElement(
-                    'div',
-                    { className: 'grid ' + (this.props.turn && 'turn') },
-                    this.state.grid.map(function (row, i) {
-                        return _react2.default.createElement(
-                            'div',
-                            { key: i, className: 'row', style: { height: cellSize } },
-                            row.map(function (cell, i) {
-                                return _react2.default.createElement(_Cell2.default, { key: i, strikeHandler: strikeHandler, cellSize: cellSize, cell: cell });
-                            })
-                        );
-                    })
-                ),
-                this.state.destroyed && _react2.default.createElement(
-                    'h1',
+                this.destroyed && _react2.default.createElement(
+                    'h2',
                     null,
                     'All Ships Destroyed'
                 )
@@ -18598,11 +18697,15 @@ var Cell = function Cell(props) {
     var clickHandler = function clickHandler() {
         props.strikeHandler(props.cell);
     };
-
+    var image = props.cell.ship ? '/images/explosion.gif' : '/images/splash.gif';
     var ship = props.cell.ship ? 'ship' : '';
     var hit = props.cell.hit ? props.cell.ship ? 'hit' : 'miss' : '';
     var sunk = props.cell.sunk ? 'sunk' : '';
-    return _react2.default.createElement('div', { className: 'cell ' + ship + ' ' + hit + ' ' + sunk, style: { height: props.cellSize, width: props.cellSize }, onClick: clickHandler });
+    return _react2.default.createElement(
+        'div',
+        { className: 'cell ' + ship + ' ' + hit + ' ' + sunk, style: { height: props.cellSize, width: props.cellSize }, onClick: clickHandler },
+        props.cell.animation && _react2.default.createElement('img', { className: 'animation', src: image + '?' + Date.now(), alt: '' })
+    );
 };
 
 exports.default = Cell;
@@ -18696,6 +18799,116 @@ function targetShip(grid, ships) {
 module.exports = {
     takeTurn: takeTurn
 };
+
+/***/ }),
+/* 34 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Settings = function (_React$Component) {
+    _inherits(Settings, _React$Component);
+
+    function Settings(props) {
+        _classCallCheck(this, Settings);
+
+        var _this = _possibleConstructorReturn(this, (Settings.__proto__ || Object.getPrototypeOf(Settings)).call(this, props));
+
+        _this.state = {
+            name1: props.name1,
+            computer1: props.computer1,
+            name2: props.name2,
+            computer2: props.computer2
+        };
+        _this.onChange = _this.onChange.bind(_this);
+        _this.radioOnChange = _this.radioOnChange.bind(_this);
+        _this.startBtn = _this.startBtn.bind(_this);
+        return _this;
+    }
+
+    _createClass(Settings, [{
+        key: 'onChange',
+        value: function onChange(e) {
+            var currentState = this.state;
+            currentState[e.target.name] = e.target.value;
+            this.setState(currentState);
+        }
+    }, {
+        key: 'radioOnChange',
+        value: function radioOnChange(e) {
+            var currentState = this.state;
+            currentState[e.target.name] = e.target.value == 'true';
+            this.setState(currentState);
+        }
+    }, {
+        key: 'startBtn',
+        value: function startBtn(e) {
+            e.preventDefault();
+            this.props.startGame(this.state);
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement(
+                'div',
+                { className: 'settings' },
+                _react2.default.createElement(
+                    'h2',
+                    null,
+                    'Settings'
+                ),
+                _react2.default.createElement(
+                    'form',
+                    null,
+                    _react2.default.createElement('input', { name: 'name1', value: this.state.name1, type: 'text', onChange: this.onChange }),
+                    _react2.default.createElement('br', null),
+                    _react2.default.createElement('input', { type: 'radio', name: 'computer1', value: 'true', checked: this.state.computer1, onChange: this.radioOnChange }),
+                    'Computer',
+                    _react2.default.createElement('input', { type: 'radio', name: 'computer1', value: 'false', checked: !this.state.computer1, onChange: this.radioOnChange }),
+                    'Human'
+                ),
+                _react2.default.createElement(
+                    'form',
+                    null,
+                    _react2.default.createElement('input', { name: 'name2', value: this.state.name2, type: 'text', onChange: this.onChange }),
+                    _react2.default.createElement('br', null),
+                    _react2.default.createElement('input', { type: 'radio', name: 'computer2', value: 'true', checked: this.state.computer2, onChange: this.radioOnChange }),
+                    'Computer',
+                    _react2.default.createElement('input', { type: 'radio', name: 'computer2', value: 'false', checked: !this.state.computer2, onChange: this.radioOnChange }),
+                    'Human'
+                ),
+                _react2.default.createElement(
+                    'button',
+                    { onClick: this.startBtn },
+                    'Start Game'
+                )
+            );
+        }
+    }]);
+
+    return Settings;
+}(_react2.default.Component);
+
+exports.default = Settings;
 
 /***/ })
 /******/ ]);
