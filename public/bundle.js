@@ -18584,11 +18584,12 @@ var Board = function (_React$Component) {
             this.processing = true;
             var timeout = cell.ship ? 2000 : 1200;
             var grid = this.state.grid;
-            grid[cell.row][cell.col].hit = true;
+
             grid[cell.row][cell.col].animation = true;
             // this.playSound(cell.ship)             
             this.setState({ grid: grid });
             setTimeout(function () {
+                grid[cell.row][cell.col].hit = true;
                 _this2.checkShips();
                 grid[cell.row][cell.col].animation = false;
                 _this2.setState({ grid: grid });
@@ -18723,9 +18724,9 @@ var Cell = function Cell(props) {
     var sunk = props.cell.sunk ? 'sunk' : '';
     return _react2.default.createElement(
         'div',
-        { className: 'cell ' + ship + ' ' + miss + ' ' + sunk, style: { height: props.cellSize, width: props.cellSize }, onClick: clickHandler },
-        props.cell.hit && props.cell.ship && _react2.default.createElement('img', { className: 'animation', src: '/images/fire.gif', alt: '' }),
-        props.cell.animation && _react2.default.createElement('img', { className: 'animation', src: image + '?' + Date.now(), alt: '' })
+        { className: 'cell ' + ship + ' ' + miss, style: { height: props.cellSize, width: props.cellSize }, onClick: clickHandler },
+        props.cell.hit && props.cell.ship && _react2.default.createElement('img', { className: 'animation', src: '/images/fire.gif', style: { marginTop: -props.cellSize / 5 } }),
+        props.cell.animation && _react2.default.createElement('img', { className: 'animation', src: image + '?' + Date.now() })
     );
 };
 
@@ -18751,8 +18752,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var ShipImage = function ShipImage(props) {
     var cellSize = props.cellSize;
     var ship = props.ship;
+    //const image = ship[0].sunk ? '/images/sunk.png' : `/images/ship${ship.length}.png`
+    var image = '/images/ship' + ship.length + '.png';
 
-    return _react2.default.createElement('img', { className: 'shipImg', src: '/images/ship' + ship.length + '.png', style: { width: (cellSize + 1) * ship.length, height: cellSize, top: ship[0].row * cellSize, left: ship[0].col * (cellSize + 1), transform: ship[0].horizontal ? '' : 'translateX(' + cellSize + 'px) rotate(90deg)', transformOrigin: 'left top' } });
+    return _react2.default.createElement('img', { className: 'shipImg', src: image, style: { width: ship[0].horizontal ? (cellSize + 1) * ship.length : cellSize * ship.length, height: cellSize, top: ship[0].row * cellSize, left: ship[0].col * (cellSize + 1), transform: ship[0].horizontal ? '' : 'translateX(' + cellSize + 'px) rotate(90deg)', transformOrigin: 'left top' } });
 };
 
 exports.default = ShipImage;

@@ -11,9 +11,9 @@ const Cell = props => {
     const miss = (props.cell.hit && !props.cell.ship) ?  'miss' : ''
     const sunk = (props.cell.sunk) ? 'sunk' : ''
     return (
-        <div className={`cell ${ship} ${miss} ${sunk}`} style={{height: props.cellSize, width: props.cellSize}} onClick={clickHandler}>
-            {(props.cell.hit && props.cell.ship) && <img className='animation' src={`/images/fire.gif`} alt='' />} 
-            {props.cell.animation && <img className='animation' src={`${image}?${Date.now()}`} alt='' />}
+        <div className={`cell ${ship} ${miss}`} style={{height: props.cellSize, width: props.cellSize}} onClick={clickHandler}>
+            {(props.cell.hit && props.cell.ship) && <img className='animation' src={`/images/fire.gif`} style={{marginTop: -props.cellSize/5}} />} 
+            {props.cell.animation && <img className='animation' src={`${image}?${Date.now()}`}  />}
         </div>
     )
 }

@@ -32,21 +32,23 @@ class Board extends React.Component {
         this.processing =true
         const timeout = cell.ship ? 2000 : 1200          
         const grid = this.state.grid
-        grid[cell.row][cell.col].hit = true
+        
         grid[cell.row][cell.col].animation = true
         // this.playSound(cell.ship)             
         this.setState({grid})
         setTimeout(()=>{
-            this.checkShips()
-            grid[cell.row][cell.col].animation = false
-            this.setState({grid})
-            this.processing = false
-            if (this.state.ships.length<1) {
-                this.destroyed = true
-                this.props.gameWon(this.props.name)
-            }
-            else this.props.changeTurn()
-        }, timeout)                
+          grid[cell.row][cell.col].hit = true         
+          this.checkShips()
+          grid[cell.row][cell.col].animation = false
+          this.setState({grid})
+          this.processing = false
+          if (this.state.ships.length<1) {
+              this.destroyed = true
+              this.props.gameWon(this.props.name)
+          }
+          else this.props.changeTurn()
+        }, timeout)  
+                           
     }
 
     playSound(ship){
