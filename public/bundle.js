@@ -18320,7 +18320,7 @@ var _Game = __webpack_require__(29);
 
 var _Game2 = _interopRequireDefault(_Game);
 
-var _Settings = __webpack_require__(35);
+var _Settings = __webpack_require__(36);
 
 var _Settings2 = _interopRequireDefault(_Settings);
 
@@ -18533,9 +18533,9 @@ var _ShipImage2 = _interopRequireDefault(_ShipImage);
 
 var _array = __webpack_require__(14);
 
-var _ships = __webpack_require__(33);
+var _ships = __webpack_require__(34);
 
-var _autoPlay = __webpack_require__(34);
+var _autoPlay = __webpack_require__(35);
 
 var _autoPlay2 = _interopRequireDefault(_autoPlay);
 
@@ -18585,7 +18585,7 @@ var Board = function (_React$Component) {
             var timeout = cell.ship ? 2000 : 1200;
             var grid = this.state.grid;
             grid[cell.row][cell.col].animation = true;
-            this.playSound(cell.ship);
+            // this.playSound(cell.ship)             
             this.setState({ grid: grid });
             setTimeout(function () {
                 grid[cell.row][cell.col].hit = true;
@@ -18739,28 +18739,45 @@ exports.default = Cell;
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactVendorPrefix = __webpack_require__(33);
+
+var _reactVendorPrefix2 = _interopRequireDefault(_reactVendorPrefix);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var ShipImage = function ShipImage(props) {
-    var cellSize = props.cellSize;
-    var ship = props.ship;
-    //const image = ship[0].sunk ? '/images/sunk.png' : `/images/ship${ship.length}.png`
-    var image = '/images/ship' + ship.length + '.png';
+  var cellSize = props.cellSize;
+  var ship = props.ship;
+  var horz = ship[0].horizontal;
+  var rotate = horz ? '' : 'rotate';
+  var rotation = 'translateX(' + cellSize + 'px) rotate(90deg)';
+  // const image = ship[0].sunk ? '/images/sunk.png' : `/images/ship${ship.length}.png`
+  var image = '/images/ship' + ship.length + '.png';
 
-    return _react2.default.createElement('img', { className: 'shipImg', src: image, style: { width: ship[0].horizontal ? (cellSize + 1) * ship.length : cellSize * ship.length, height: cellSize, top: ship[0].row * cellSize, left: ship[0].col * (cellSize + 1), transform: ship[0].horizontal ? '' : 'translateX(' + cellSize + 'px) rotate(90deg)', transformOrigin: 'left top' } });
+  return _react2.default.createElement('img', { className: 'shipImg ' + rotate, src: image, style: {
+      width: horz ? (cellSize + 1) * ship.length : cellSize * ship.length, height: cellSize,
+      top: ship[0].row * cellSize, left: ship[0].col * (cellSize + 1), transform: horz ? '' : rotation,
+      WebkitTransform: horz ? '' : rotation, MozTransform: horz ? '' : rotation, MsTransform: horz ? '' : rotation,
+      OTransform: horz ? '' : rotation } });
 };
 
 exports.default = ShipImage;
 
 /***/ }),
 /* 33 */
+/***/ (function(module, exports) {
+
+module.exports=function(n){function t(i){if(e[i])return e[i].exports;var r=e[i]={exports:{},id:i,loaded:!1};return n[i].call(r.exports,r,r.exports,t),r.loaded=!0,r.exports}var e={};return t.m=n,t.c=e,t.p="",t(0)}([function(n,t){"use strict";function e(n){return a.js+n[0].toUpperCase()+n.substr(1)}function i(n){return Object.keys(n).reduce(function(t,i){return-1!==s.indexOf(i)?t[e(i)]=n[i]:t[i]=n[i],t},{})}function r(n){var t=navigator.userAgent.toLowerCase();return-1!==t.indexOf("safari")&&-1===t.indexOf("chrome")?!function(){var t=function(n,t,e){n[e]=n[t],delete n[t]};"flex"===n.display&&(n.display="-webkit-flex"),["alignItems","justifyContent","flexDirection","flex","flexWrap"].forEach(function(i){t(n,i,e(i))})}():-1!==navigator.appVersion.indexOf("MSIE 10")&&"flex"===n.display&&(n.display="-ms-flexbox"),n}function o(n){return Object.keys(n).reduce(function(t,e){return t[e]=r(i(n[e])),t},{})}var a=function(){var n=window.getComputedStyle(document.documentElement,""),t=(Array.prototype.slice.call(n).join("").match(/-(moz|webkit|ms)-/)||""===n.OLink&&["","o"])[1];return{dom:"ms"===t?"MS":t,lowercase:t,css:"-"+t+"-",js:"ms"===t?t:t[0].toUpperCase()+t.substr(1)}}(),s=["animation","animationDelay","animationDirection","animationDuration","animationFillMode","animationIterationCount","animationName","animationPlayState","animationTimingFunction","appearance","backfaceVisibility","backgroundClip","borderImage","borderImageSlice","boxSizing","boxShadow","contentColumns","transform","transformOrigin","transformStyle","transition","transitionDelay","transitionDuration","transitionProperty","transitionTimingFunction","perspective","perspectiveOrigin","userSelect"];t.prefix=o}]);
+
+/***/ }),
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18813,7 +18830,7 @@ function placeShipVertical(length, grid) {
 module.exports = { placeShips: placeShips };
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18914,7 +18931,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

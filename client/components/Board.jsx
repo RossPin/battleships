@@ -33,7 +33,7 @@ class Board extends React.Component {
         const timeout = cell.ship ? 2000 : 1200          
         const grid = this.state.grid        
         grid[cell.row][cell.col].animation = true
-        this.playSound(cell.ship)             
+        // this.playSound(cell.ship)             
         this.setState({grid})
         setTimeout(()=>{
           grid[cell.row][cell.col].hit = true         
