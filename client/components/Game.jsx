@@ -37,10 +37,10 @@ class Game extends React.Component {
     render(){
         return (
             <div>
-              <button onClick={this.props.newGame}>New Game</button>
+              <button className='newGame' onClick={this.props.newGame}>New Game</button>
               {!this.state.winner && <h2>{this.state.player1.turn ? this.state.player2.name : this.state.player1.name} Attack!!!!</h2>}
               {this.state.winner && <h2>{this.state.winner} WINS!!!!!!!</h2>}
-              <div className='game' style={{width: this.props.width*2+262}}>  
+              <div className='game' style={{width: this.props.width*2.524}}>  
                 <Board {...this.state.player1}  
                   changeTurn={this.changeTurn} gameWon={this.gameWon} width={this.props.width}/>
                 <Board {...this.state.player2}

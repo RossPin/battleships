@@ -18,7 +18,20 @@ class App extends React.Component {
     this.gameStarted = false
     this.startGame = this.startGame.bind(this)
     this.newGame = this.newGame.bind(this)
+    this.updateWindowDimensions = this.updateWindowDimensions.bind(this)
   }
+
+  componentDidMount() {
+    this.updateWindowDimensions();
+    window.addEventListener('resize', this.updateWindowDimensions);
+  }
+
+  updateWindowDimensions() {
+    const width = (window.window.innerHeight*1.4 < window.window.innerWidth) ? window.window.innerHeight*0.5419 : window.window.innerWidth*0.38
+
+    this.setState({width});
+  }
+  
 
   startGame(setting) {
     this.gameStarted = true   

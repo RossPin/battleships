@@ -18350,10 +18350,24 @@ var App = function (_React$Component) {
     _this.gameStarted = false;
     _this.startGame = _this.startGame.bind(_this);
     _this.newGame = _this.newGame.bind(_this);
+    _this.updateWindowDimensions = _this.updateWindowDimensions.bind(_this);
     return _this;
   }
 
   _createClass(App, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.updateWindowDimensions();
+      window.addEventListener('resize', this.updateWindowDimensions);
+    }
+  }, {
+    key: 'updateWindowDimensions',
+    value: function updateWindowDimensions() {
+      var width = window.window.innerHeight * 1.4 < window.window.innerWidth ? window.window.innerHeight * 0.5419 : window.window.innerWidth * 0.38;
+
+      this.setState({ width: width });
+    }
+  }, {
     key: 'startGame',
     value: function startGame(setting) {
       this.gameStarted = true;
@@ -18474,7 +18488,7 @@ var Game = function (_React$Component) {
                 null,
                 _react2.default.createElement(
                     'button',
-                    { onClick: this.props.newGame },
+                    { className: 'newGame', onClick: this.props.newGame },
                     'New Game'
                 ),
                 !this.state.winner && _react2.default.createElement(
@@ -18491,7 +18505,7 @@ var Game = function (_React$Component) {
                 ),
                 _react2.default.createElement(
                     'div',
-                    { className: 'game', style: { width: this.props.width * 2 + 262 } },
+                    { className: 'game', style: { width: this.props.width * 2.524 } },
                     _react2.default.createElement(_Board2.default, _extends({}, this.state.player1, {
                         changeTurn: this.changeTurn, gameWon: this.gameWon, width: this.props.width })),
                     _react2.default.createElement(_Board2.default, _extends({}, this.state.player2, {
@@ -18585,7 +18599,7 @@ var Board = function (_React$Component) {
             var timeout = cell.ship ? 2000 : 1200;
             var grid = this.state.grid;
             grid[cell.row][cell.col].animation = true;
-            // this.playSound(cell.ship)             
+            this.playSound(cell.ship);
             this.setState({ grid: grid });
             setTimeout(function () {
                 grid[cell.row][cell.col].hit = true;
@@ -18653,7 +18667,7 @@ var Board = function (_React$Component) {
                 { className: 'board' },
                 _react2.default.createElement(
                     'div',
-                    { className: 'gridSurround' + (this.props.turn ? 'Turn' : '') },
+                    { className: 'gridSurround' + (this.props.turn ? 'Turn' : ''), style: { padding: this.props.turn ? width * 0.11 - 7 : width * 0.11 } },
                     _react2.default.createElement(
                         'div',
                         { className: 'grid ' + (this.props.turn && 'turn') },

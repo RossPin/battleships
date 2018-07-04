@@ -33,7 +33,7 @@ class Board extends React.Component {
         const timeout = cell.ship ? 2000 : 1200          
         const grid = this.state.grid        
         grid[cell.row][cell.col].animation = true
-        // this.playSound(cell.ship)             
+        this.playSound(cell.ship)             
         this.setState({grid})
         setTimeout(()=>{
           grid[cell.row][cell.col].hit = true         
@@ -87,7 +87,7 @@ class Board extends React.Component {
         const opponentComputer = this.props.opponentComputer
         return (
             <div className='board' >                
-                <div className={`gridSurround${this.props.turn ? 'Turn' : ''}`} >
+                <div className={`gridSurround${this.props.turn ? 'Turn' : ''}`} style={{padding: this.props.turn ? width*0.11-7 : width*0.11}} >
                   <div className={`grid ${this.props.turn && 'turn'}`} >
                       {this.state.grid.map((row, i) => (
                           <div key={i} className='row' style={{height: cellSize}}>
