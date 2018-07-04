@@ -29,10 +29,9 @@ class Board extends React.Component {
 
     strikeHandler(cell) {
         if (cell.hit || !this.props.turn || this.processing) return        
-        this.processing =true
+        this.processing = true
         const timeout = cell.ship ? 2000 : 1200          
-        const grid = this.state.grid
-        
+        const grid = this.state.grid        
         grid[cell.row][cell.col].animation = true
         // this.playSound(cell.ship)             
         this.setState({grid})

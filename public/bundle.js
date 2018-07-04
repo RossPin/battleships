@@ -18584,7 +18584,6 @@ var Board = function (_React$Component) {
             this.processing = true;
             var timeout = cell.ship ? 2000 : 1200;
             var grid = this.state.grid;
-
             grid[cell.row][cell.col].animation = true;
             // this.playSound(cell.ship)             
             this.setState({ grid: grid });
