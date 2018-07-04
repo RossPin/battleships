@@ -98,6 +98,9 @@ class Board extends React.Component {
                       {opponentComputer && this.state.ships.map(ship => (
                         <ShipImage cellSize={cellSize} ship={ship}/>
                       ))}
+                      {this.state.sunk.map(ship => (
+                        <ShipImage cellSize={cellSize} ship={ship}/>
+                      ))}
                       
                   </div>
                 </div>
