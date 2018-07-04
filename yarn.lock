@@ -2430,6 +2430,10 @@ react-dom@^16.2.0:
     object-assign "^4.1.1"
     prop-types "^15.6.0"
 
+react-vendor-prefix@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/react-vendor-prefix/-/react-vendor-prefix-0.0.1.tgz#28dcfc97959b38f08a5a76b80a15a9498d3b007c"
+
 react@^16.2.0:
   version "16.2.0"
   resolved "https://registry.yarnpkg.com/react/-/react-16.2.0.tgz#a31bd2dab89bff65d42134fa187f24d054c273ba"

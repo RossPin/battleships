@@ -87,7 +87,7 @@ class Board extends React.Component {
         const opponentComputer = this.props.opponentComputer
         return (
             <div className='board' >                
-                <div className={`gridSurround${this.props.turn ? 'Turn' : ''}`} >
+                <div className={`gridSurround${this.props.turn ? 'Turn' : ''}`} style={{padding: this.props.turn ? width*0.11-7 : width*0.11}} >
                   <div className={`grid ${this.props.turn && 'turn'}`} >
                       {this.state.grid.map((row, i) => (
                           <div key={i} className='row' style={{height: cellSize}}>
