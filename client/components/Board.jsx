@@ -1,6 +1,7 @@
 import React from 'react'
 
 import Cell from './Cell'
+import ShipImage from './ShipImage'
 import {generateGrid} from '../array'
 import {placeShips} from '../ships'
 import autoPlay from '../autoPlay'
@@ -10,7 +11,8 @@ class Board extends React.Component {
         super(props)
         this.state = {
            grid: generateGrid(15),
-           sunk: []                      
+           sunk: [],
+           ships: []                      
         } 
         this.destroyed = false       
         this.processing = false
@@ -56,11 +58,11 @@ class Board extends React.Component {
     checkShips(){
         let ships = this.state.ships
         ships.forEach((ship, i) => {
-           if (this.checkSunk(ship, i)){
+           if (this.checkSunk(ship)){
                ship.forEach(cell => cell.sunk = true)
                let sunk = this.state.sunk
-               sunk.push(ship)
-               ships.splice(i, 1)
+               sunk.push(ship) //add shp to sunk
+               ships.splice(i, 1) //remove ship from ships
                this.setState({sunk, ships})
            }
         });
@@ -93,6 +95,10 @@ class Board extends React.Component {
                               ))}
                           </div>
                       ))}
+                      {opponentComputer && this.state.ships.map(ship => (
+                        <ShipImage cellSize={cellSize} ship={ship}/>
+                      ))}
+                      
                   </div>
                 </div>
                 <h3>{this.props.name || 'Player'}</h3>
@@ -103,3 +109,5 @@ class Board extends React.Component {
 }
 
 export default Board
+
+{/* <img className='shipImg' src='/images/DeadFishArt.png' style={{width: (cellSize+1)*ship.length, height: cellSize, top: ship[0].row*(cellSize), left: ship[0].col*(cellSize+1), transform: ship[0].horizontal ? '' : `translateX(${cellSize}px) rotate(90deg)`, transformOrigin: `left top`}} /> */}

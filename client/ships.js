@@ -24,9 +24,9 @@ function placeShipHorizontal(length, grid) {
     if (grid[row][col+i].ship) return placeShipHorizontal(length, grid)
   }
   for (let i=0; i<length; i++){
-    grid[row][col+i].ship = true
+    Object.assign(grid[row][col+i], {ship: true, horizontal: true})
     ship.push(grid[row][col+i])
-  }
+  } 
   return ship
 }
 
@@ -38,7 +38,7 @@ function placeShipVertical(length, grid) {
     if (grid[row+i][col].ship) return placeShipHorizontal(length, grid)
   }
   for (let i=0; i<length; i++){
-    grid[row+i][col].ship = true
+    Object.assign(grid[row+i][col], {ship: true, horizontal: false})
     ship.push(grid[row+i][col])
   }
   return ship

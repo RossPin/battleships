@@ -18527,6 +18527,10 @@ var _Cell = __webpack_require__(31);
 
 var _Cell2 = _interopRequireDefault(_Cell);
 
+var _ShipImage = __webpack_require__(35);
+
+var _ShipImage2 = _interopRequireDefault(_ShipImage);
+
 var _array = __webpack_require__(14);
 
 var _ships = __webpack_require__(32);
@@ -18553,7 +18557,8 @@ var Board = function (_React$Component) {
 
         _this.state = {
             grid: (0, _array.generateGrid)(15),
-            sunk: []
+            sunk: [],
+            ships: []
         };
         _this.destroyed = false;
         _this.processing = false;
@@ -18608,13 +18613,13 @@ var Board = function (_React$Component) {
 
             var ships = this.state.ships;
             ships.forEach(function (ship, i) {
-                if (_this3.checkSunk(ship, i)) {
+                if (_this3.checkSunk(ship)) {
                     ship.forEach(function (cell) {
                         return cell.sunk = true;
                     });
                     var sunk = _this3.state.sunk;
-                    sunk.push(ship);
-                    ships.splice(i, 1);
+                    sunk.push(ship); //add shp to sunk
+                    ships.splice(i, 1); //remove ship from ships
                     _this3.setState({ sunk: sunk, ships: ships });
                 }
             });
@@ -18660,6 +18665,9 @@ var Board = function (_React$Component) {
                                     return _react2.default.createElement(_Cell2.default, { key: i, strikeHandler: strikeHandler, cellSize: cellSize, cell: cell, opponentComputer: opponentComputer });
                                 })
                             );
+                        }),
+                        opponentComputer && this.state.ships.map(function (ship) {
+                            return _react2.default.createElement(_ShipImage2.default, { cellSize: cellSize, ship: ship });
                         })
                     )
                 ),
@@ -18681,6 +18689,9 @@ var Board = function (_React$Component) {
 }(_react2.default.Component);
 
 exports.default = Board;
+
+
+{/* <img className='shipImg' src='/images/DeadFishArt.png' style={{width: (cellSize+1)*ship.length, height: cellSize, top: ship[0].row*(cellSize), left: ship[0].col*(cellSize+1), transform: ship[0].horizontal ? '' : `translateX(${cellSize}px) rotate(90deg)`, transformOrigin: `left top`}} /> */}
 
 /***/ }),
 /* 31 */
@@ -18705,12 +18716,12 @@ var Cell = function Cell(props) {
     };
     var image = props.cell.ship ? '/images/explosion.gif' : '/images/splash.gif';
     var ship = props.cell.ship ? props.opponentComputer ? 'ship' : 'hiddenShip' : '';
-
-    var hit = props.cell.hit ? props.cell.ship ? 'hit' : 'miss' : '';
+    var miss = props.cell.hit && !props.cell.ship ? 'miss' : '';
     var sunk = props.cell.sunk ? 'sunk' : '';
     return _react2.default.createElement(
         'div',
-        { className: 'cell ' + ship + ' ' + hit + ' ' + sunk, style: { height: props.cellSize, width: props.cellSize }, onClick: clickHandler },
+        { className: 'cell ' + ship + ' ' + miss + ' ' + sunk, style: { height: props.cellSize, width: props.cellSize }, onClick: clickHandler },
+        props.cell.hit && props.cell.ship && _react2.default.createElement('img', { className: 'animation', src: '/images/fire.gif', alt: '' }),
         props.cell.animation && _react2.default.createElement('img', { className: 'animation', src: image + '?' + Date.now(), alt: '' })
     );
 };
@@ -18748,7 +18759,7 @@ function placeShipHorizontal(length, grid) {
     if (grid[row][col + i].ship) return placeShipHorizontal(length, grid);
   }
   for (var _i = 0; _i < length; _i++) {
-    grid[row][col + _i].ship = true;
+    Object.assign(grid[row][col + _i], { ship: true, horizontal: true });
     ship.push(grid[row][col + _i]);
   }
   return ship;
@@ -18762,7 +18773,7 @@ function placeShipVertical(length, grid) {
     if (grid[row + i][col].ship) return placeShipHorizontal(length, grid);
   }
   for (var _i2 = 0; _i2 < length; _i2++) {
-    grid[row + _i2][col].ship = true;
+    Object.assign(grid[row + _i2][col], { ship: true, horizontal: false });
     ship.push(grid[row + _i2][col]);
   }
   return ship;
@@ -18980,6 +18991,32 @@ var Settings = function (_React$Component) {
 }(_react2.default.Component);
 
 exports.default = Settings;
+
+/***/ }),
+/* 35 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var ShipImage = function ShipImage(props) {
+    var cellSize = props.cellSize;
+    var ship = props.ship;
+
+    return _react2.default.createElement('img', { className: 'shipImg', src: '/images/DeadFishArt.png', style: { width: (cellSize + 1) * ship.length, height: cellSize, top: ship[0].row * cellSize, left: ship[0].col * (cellSize + 1), transform: ship[0].horizontal ? '' : 'translateX(' + cellSize + 'px) rotate(90deg)', transformOrigin: 'left top' } });
+};
+
+exports.default = ShipImage;
 
 /***/ })
 /******/ ]);

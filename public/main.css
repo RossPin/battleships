@@ -34,10 +34,16 @@ body{
 
 
 .grid {
+  position: relative;
   background-image: url('/images/ocean.jpg');
   background-size: cover;
   border: 3px solid black; 
   margin-top: 0px;
+}
+.shipImg {
+  position: absolute;
+  top: 0; 
+  z-index: 1; 
 }
 
 .turn {
@@ -50,6 +56,7 @@ body{
 }
 
 .cell {
+  position: relative;
   border-right: 1px dashed rgba(0,0,0,0.2);
   border-bottom: 1px dashed rgba(0,0,0,0.2);
   text-align: center;
@@ -102,7 +109,11 @@ h3 {
 }
 
 .animation {
-  width: 100%
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 2;
 }
 
 button {
