@@ -18581,7 +18581,7 @@ var Board = function (_React$Component) {
             var grid = this.state.grid;
             grid[cell.row][cell.col].hit = true;
             grid[cell.row][cell.col].animation = true;
-            this.playSound(cell.ship);
+            // this.playSound(cell.ship)             
             this.setState({ grid: grid });
             setTimeout(function () {
                 _this2.checkShips();
@@ -18778,12 +18778,10 @@ module.exports = { placeShips: placeShips };
 
 
 function takeTurn(grid, ships) {
-    if (ships) {
-        if (shipBurning(ships)) return targetShip(grid, ships);
-    }
+    if (shipBurning(ships)) return targetShip(grid, ships);
     var row = Math.floor(Math.random() * grid.length);
     var col = Math.floor(Math.random() * grid[row].length);
-    if (grid[row][col].hit) return takeTurn(grid);else return grid[row][col];
+    if (grid[row][col].hit) return takeTurn(grid, ships);else if (!shipCanFit(smallestShipLeft(ships), grid[row][col], grid)) return takeTurn(grid, ships);else return grid[row][col];
 }
 
 function shipBurning(ships) {
@@ -18795,11 +18793,77 @@ function shipBurning(ships) {
     return burning;
 }
 
+function smallestShipLeft(ships) {
+    var orderedShips = ships.sort(function (a, b) {
+        return a.length - b.length;
+    });
+    return orderedShips[0].length;
+}
+
+function shipCanFit(length, cell, grid) {
+    var row = cell.row;
+    var col = cell.col;
+    var cellsLeft = 0;
+    while (cellsLeft < col) {
+        if (grid[row][col - cellsLeft - 1].hit) break;else cellsLeft++;
+    }
+    var cellsRight = 0;
+    while (cellsRight < grid.length - col - 1) {
+        if (grid[row][col + cellsRight + 1].hit) break;else cellsRight++;
+    }
+    var cellsUp = 0;
+    while (cellsUp < row) {
+        if (grid[row - cellsUp - 1][col].hit) break;else cellsUp++;
+    }
+    var cellsDown = 0;
+    while (cellsDown < grid.length - row - 1) {
+        if (grid[row + cellsDown + 1][col].hit) break;else cellsDown++;
+    }
+    if (cellsLeft + cellsRight + 1 >= length) return true;else if (cellsUp + cellsDown + 1 >= length) return true;else return false;
+}
+
 function targetShip(grid, ships) {
     var ship = shipBurning(ships);
-    var cell = ship.find(function (cell) {
-        return !cell.hit;
+    var cells = ship.filter(function (cell) {
+        return cell.hit;
     });
+    var cell = cells.length > 1 ? isHorizontal(cells) ? hitHorizontal(grid, cells) : hitVertical(grid, cells) : hitSurround(grid, cells);
+    return cell;
+}
+
+function isHorizontal(cells) {
+    return cells[0].row == cells[1].row ? true : false;
+}
+
+function hitSurround(grid, cells) {
+    var cell = getEmptySurrounds(grid, cells[0]);
+    return cell;
+}
+
+function getEmptySurrounds(grid, cell) {
+    var row = cell.row;
+    var col = cell.col;
+    var surrounds = [];
+    if (row > 0 && !grid[row - 1][col].hit) surrounds.push(grid[row - 1][col]);
+    if (row < grid.length - 1 && !grid[row + 1][col].hit) surrounds.push(grid[row + 1][col]);
+    if (col > 0 && !grid[row][col - 1].hit) surrounds.push(grid[row][col - 1]);
+    if (col < grid.length - 1 && !grid[row][col + 1].hit) surrounds.push(grid[row][col + 1]);
+    return surrounds[Math.floor(Math.random() * surrounds.length)];
+}
+
+function hitVertical(grid, cells) {
+    var row = cells[0].row;
+    var col = cells[0].col;
+    var cell = {};
+    if (row > 0 && !grid[row - 1][col].hit) cell = grid[row - 1][col];else if (row + cells.length < grid.length && !grid[row + cells.length][col].hit) cell = grid[row + cells.length][col];
+    return cell;
+}
+
+function hitHorizontal(grid, cells) {
+    var row = cells[0].row;
+    var col = cells[0].col;
+    var cell = {};
+    if (col > 0 && !grid[row][col - 1].hit) cell = grid[row][col - 1];else if (col + cells.length < grid.length && !grid[row][col + cells.length].hit) cell = grid[row][col + cells.length];
     return cell;
 }
 
