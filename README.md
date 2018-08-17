@@ -12,3 +12,5 @@ If an opposing player is controlled by the compeuter the players ships will be v
 
 If an opposing player is a human the players ships will be hidden untill destroyed.
 
+published at http://battleships-eda.herokuapp.com/
+
