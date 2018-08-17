@@ -1,4 +1,4 @@
-#Battleships
+# Battleships
 
 An Implementation of the board game 'Battleships' built as a personal project during EDA bootcamp.
 
