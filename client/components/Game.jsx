@@ -41,9 +41,9 @@ class Game extends React.Component {
               {!this.state.winner && <h2>{this.state.player1.turn ? this.state.player2.name : this.state.player1.name} Attack!!!!</h2>}
               {this.state.winner && <h2>{this.state.winner} WINS!!!!!!!</h2>}
               <div className='game' style={{width: this.props.width*2.524}}>  
-                <Board {...this.state.player1}  
+                <Board {...this.state.player1} winner={this.state.winner} 
                   changeTurn={this.changeTurn} gameWon={this.gameWon} width={this.props.width}/>
-                <Board {...this.state.player2}
+                <Board {...this.state.player2} winner={this.state.winner}
                   changeTurn={this.changeTurn} gameWon={this.gameWon} width={this.props.width}/>                
               </div>
               

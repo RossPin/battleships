@@ -96,7 +96,7 @@ class Board extends React.Component {
                               ))}
                           </div>
                       ))}
-                      {opponentComputer && this.state.ships.map(ship => (
+                      {(opponentComputer || this.props.winner) && this.state.ships.map(ship => (
                         <ShipImage cellSize={cellSize} ship={ship}/>
                       ))}
                       {this.state.sunk.map(ship => (
