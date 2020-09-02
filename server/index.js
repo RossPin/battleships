@@ -8,4 +8,4 @@ setTimeout( () => {
     // eslint-disable-next-line no-console
     console.log('Listening on port', port)
   })
-}),10000)
+},10000)
